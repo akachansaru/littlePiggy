@@ -13,7 +13,6 @@ public class LevelManager : MonoBehaviour {
 	public static float piggyJump;
 	public static float piggyDamage;
 
-
 //	public float height1;
 //	public float height2;
 //	public float height3;

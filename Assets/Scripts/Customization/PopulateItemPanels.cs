@@ -4,11 +4,9 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class PopulateItemPanels : MonoBehaviour {
-	public Canvas canvas;
 	public GameObject hatContent;
 	public GameObject capeContent;
 	public GameObject shoeContent;
-	public GameObject itemUIPrefab;
 
 	// Use this for initialization
 	void Start () {
@@ -16,7 +14,7 @@ public class PopulateItemPanels : MonoBehaviour {
 		foreach (HeadItem headItem in headItems) {
 			Debug.Log ("Head item " + headItem.headItemStyle);
 			GameObject hatUI = Instantiate(HeadItemMethods.LoadUIPrefab(), hatContent.transform) as GameObject;
-			HeadItemMethods.ApplyUIAttributes (headItem, hatUI, canvas);
+			HeadItemMethods.ApplyUIAttributes (headItem, hatUI, GetComponent<Canvas>());
 			if (headItem.currentlyWearing) {
 				ItemsOnPig.itemsOnPig.WearingHeadItem = true;
 				ItemsOnPig.itemsOnPig.HeadItem = Instantiate(HeadItemMethods.LoadPrefab (headItem));

@@ -21,17 +21,8 @@ public class Settings : MonoBehaviour {
 			musicVolumeSlider.value = GlobalControl.Instance.savedData.musicVolume;
 		}
 	}
-
-	public virtual void OpenSettings() {
-		// LevelManager.levelManager.PauseGame();
-		// LevelManager.levelManager.DeactivateButtons();
-		// LevelManager.levelManager.player.GetComponent<Pig>().ToggleActiveMovementButtons(false);
-		settingsPanel.SetActive(true);
-	}
-
-	// Game will still be paused after settings are closed
+		
 	public virtual void CloseSettings() {
-		// LevelManager.levelManager.ActivateButtons();
 		settingsPanel.SetActive(false);
 	}
 
