@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{67AFE356-5906-E24D-56AF-947F303DC5C8}</ProjectGuid>
+    <ProjectGuid>{2F9775F7-16EA-641F-4164-804FEAD07F06}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
@@ -64,25 +64,25 @@
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityPurchasing/UnityEngine.Purchasing.dll</HintPath>
  </Reference>
  <Reference Include="Common">
- <HintPath>C:/Users/SheeperT/Unity/Little Piggy 10_31/Assets/Plugins/UnityPurchasing/Bin/Common.dll</HintPath>
+ <HintPath>C:/Users/SheeperT/Unity/littlePiggy/Assets/Plugins/UnityPurchasing/Bin/Common.dll</HintPath>
  </Reference>
  <Reference Include="Editor">
- <HintPath>C:/Users/SheeperT/Unity/Little Piggy 10_31/Assets/Plugins/UnityPurchasing/Bin/Editor.dll</HintPath>
+ <HintPath>C:/Users/SheeperT/Unity/littlePiggy/Assets/Plugins/UnityPurchasing/Bin/Editor.dll</HintPath>
  </Reference>
  <Reference Include="Security">
- <HintPath>C:/Users/SheeperT/Unity/Little Piggy 10_31/Assets/Plugins/UnityPurchasing/Bin/Security.dll</HintPath>
+ <HintPath>C:/Users/SheeperT/Unity/littlePiggy/Assets/Plugins/UnityPurchasing/Bin/Security.dll</HintPath>
  </Reference>
  <Reference Include="Stores">
- <HintPath>C:/Users/SheeperT/Unity/Little Piggy 10_31/Assets/Plugins/UnityPurchasing/Bin/Stores.dll</HintPath>
+ <HintPath>C:/Users/SheeperT/Unity/littlePiggy/Assets/Plugins/UnityPurchasing/Bin/Stores.dll</HintPath>
  </Reference>
  <Reference Include="Apple">
- <HintPath>C:/Users/SheeperT/Unity/Little Piggy 10_31/Assets/Plugins/UnityPurchasing/Bin/Apple/Apple.dll</HintPath>
+ <HintPath>C:/Users/SheeperT/Unity/littlePiggy/Assets/Plugins/UnityPurchasing/Bin/Apple/Apple.dll</HintPath>
  </Reference>
  <Reference Include="Tizen">
- <HintPath>C:/Users/SheeperT/Unity/Little Piggy 10_31/Assets/Plugins/UnityPurchasing/Bin/Tizen/Tizen.dll</HintPath>
+ <HintPath>C:/Users/SheeperT/Unity/littlePiggy/Assets/Plugins/UnityPurchasing/Bin/Tizen/Tizen.dll</HintPath>
  </Reference>
  <Reference Include="winrt">
- <HintPath>C:/Users/SheeperT/Unity/Little Piggy 10_31/Assets/Plugins/UnityPurchasing/winrt/winrt.dll</HintPath>
+ <HintPath>C:/Users/SheeperT/Unity/littlePiggy/Assets/Plugins/UnityPurchasing/winrt/winrt.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

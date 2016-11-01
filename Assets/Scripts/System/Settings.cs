@@ -11,12 +11,6 @@ public class Settings : MonoBehaviour {
 	public AudioSource introMusic;
 	public Toggle musicMutedToggle;
 
-//	public static Settings settings;
-
-//	public bool SettingsOpen {
-//		get { return settingsPanel.activeSelf; }
-//	}
-
 	// Use this for initialization
 	void Start() {
 		GlobalControl.Instance.Load();
