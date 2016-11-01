@@ -7,17 +7,21 @@ public class Settings : MonoBehaviour {
 
 	public GameObject settingsPanel;
 	public Slider musicVolumeSlider;
-	public AudioSource music;
 	public Toggle musicMutedToggle;
+	public AudioSource music;
 
 	void Start() {
 		GlobalControl.Instance.Load();
+		SetSavedMusicSettings ();
+	}
+
+	protected void SetSavedMusicSettings() {
 		if (musicMutedToggle) {
 			musicMutedToggle.isOn = GlobalControl.Instance.savedData.musicMuted;
 		}
 		if (musicVolumeSlider) {
 			musicVolumeSlider.value = GlobalControl.Instance.savedData.musicVolume;
-		}	
+		}
 	}
 
 	public virtual void OpenSettings() {

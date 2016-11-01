@@ -7,6 +7,8 @@ public class InLevelSettings : Settings {
 	public static InLevelSettings Settings;
 
 	public void Start() {
+		GlobalControl.Instance.Load();
+		base.SetSavedMusicSettings ();
 		Settings = this;
 	}
 
