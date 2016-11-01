@@ -5,13 +5,11 @@ using System.Collections;
 
 public class Settings : MonoBehaviour {
 
-	// public string levelName;
 	public GameObject settingsPanel;
 	public Slider musicVolumeSlider;
-	public AudioSource introMusic;
+	public AudioSource music;
 	public Toggle musicMutedToggle;
 
-	// Use this for initialization
 	void Start() {
 		GlobalControl.Instance.Load();
 		if (musicMutedToggle) {
@@ -19,35 +17,36 @@ public class Settings : MonoBehaviour {
 		}
 		if (musicVolumeSlider) {
 			musicVolumeSlider.value = GlobalControl.Instance.savedData.musicVolume;
-		}
+		}	
+	}
+
+	public virtual void OpenSettings() {
+		settingsPanel.SetActive(true);
+	}
+
+	public void DeactivateButton(GameObject button) {
+		button.SetActive (false);
+	}
+
+	public void ActivateButton(GameObject button) {
+		button.SetActive (true);
 	}
 		
 	public virtual void CloseSettings() {
 		settingsPanel.SetActive(false);
 	}
 
-	// public void RestartLevel() {
-	// 	LevelManager.levelManager.UnpauseGame();
-	// 	SceneManager.LoadScene(levelName);
-	// }
-
-	// public void QuitLevel() {
-	// 	LevelManager.levelManager.UnpauseGame();
-	// 	// GlobalControl.Instance.savedData
-	// 	SceneManager.LoadScene("MainMenu");
-	// }
-
 	public void AdjustMusicVolume() {
-		Debug.Log("Volume adjusted");
-		introMusic.volume = musicVolumeSlider.value;
-		GlobalControl.Instance.savedData.musicVolume = introMusic.volume;
+		Debug.Log("Volume adjusted.");
+		music.volume = musicVolumeSlider.value;
+		GlobalControl.Instance.savedData.musicVolume = music.volume;
 		GlobalControl.Instance.Save();
 	}
 
 	public void MuteMusic() {
-		Debug.Log("Mute toggled");
-		introMusic.mute = !introMusic.mute;
-		GlobalControl.Instance.savedData.musicMuted = introMusic.mute;
+		Debug.Log("Mute toggled.");
+		music.mute = !music.mute;
+		GlobalControl.Instance.savedData.musicMuted = music.mute;
 		GlobalControl.Instance.Save();
 	}
 }
