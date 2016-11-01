@@ -17,9 +17,9 @@ public class Settings : MonoBehaviour {
 		if (musicMutedToggle) {
 			musicMutedToggle.isOn = GlobalControl.Instance.savedData.musicMuted;
 		}
-		if (musicVolumeSlider) {
-			musicVolumeSlider.value = GlobalControl.Instance.savedData.musicVolume;
-		}	
+//		if (musicVolumeSlider) {
+//			musicVolumeSlider.value = GlobalControl.Instance.savedData.musicVolume;
+//		}	
 	}
 
 	public virtual void OpenSettings() {
