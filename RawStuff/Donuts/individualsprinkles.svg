@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="32px"
+   height="32px"
+   id="svg2985"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="holespinkle.svg"
+   inkscape:export-filename="C:\Users\Jonathan\Desktop\Little Piggy\Assets\Sprites\Donuts\sprinkled5.png"
+   inkscape:export-xdpi="700"
+   inkscape:export-ydpi="700">
+  <defs
+     id="defs2987">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 16 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="32 : 16 : 1"
+       inkscape:persp3d-origin="16 : 10.666667 : 1"
+       id="perspective3797" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="15.836083"
+     inkscape:cx="13.495015"
+     inkscape:cy="18.032491"
+     inkscape:current-layer="g4253"
+     showgrid="true"
+     inkscape:grid-bbox="true"
+     inkscape:document-units="px"
+     inkscape:window-width="1440"
+     inkscape:window-height="838"
+     inkscape:window-x="-8"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2995" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata2990">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <g
+       id="g4253"
+       transform="matrix(1.3241809,0,0,1.3270764,-5.4249062,-7.7711221)">
+      <rect
+         transform="matrix(-0.19606863,-0.98059018,0.97108021,-0.23875348,0,0)"
+         ry="1.0089054"
+         y="5.6781626"
+         x="-27.394014"
+         height="2.0178106"
+         width="5.1645021"
+         id="rect3813-45-6-1"
+         style="fill:#ff00ff;fill-opacity:1;stroke:#9200ff;stroke-width:0.39374495;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <rect
+         transform="matrix(0.3413166,0.93994839,-0.92940142,0.36907046,0,0)"
+         ry="1.0039914"
+         y="-10.96788"
+         x="21.229153"
+         height="2.0079827"
+         width="5.1871023"
+         id="rect3813-45-0-73-8"
+         style="fill:#784421;fill-opacity:1;stroke:#522800;stroke-width:0.39364341;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         inkscape:transform-center-y="2.1967372"
+         inkscape:transform-center-x="1.7674545" />
+      <rect
+         transform="matrix(0.2558988,-0.96670358,0.98624923,0.16526481,0,0)"
+         ry="1.0107659"
+         y="25.841568"
+         x="-22.997929"
+         height="2.0215313"
+         width="5.1722984"
+         id="rect3813-45-71-0-5"
+         style="fill:#ffca2d;fill-opacity:1;stroke:#c6920f;stroke-width:0.39440516;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         inkscape:transform-center-y="-0.39312308"
+         inkscape:transform-center-x="-1.7776521" />
+      <rect
+         transform="matrix(0.17339348,-0.98485263,0.99592148,0.09022424,0,0)"
+         ry="1.0119727"
+         y="9.2723942"
+         x="-20.12398"
+         height="2.0239451"
+         width="5.1620936"
+         id="rect3813-45-80-3"
+         style="fill:#46bef0;fill-opacity:1;stroke:#2470e3;stroke-width:0.39425108;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         inkscape:transform-center-x="-2.2934649"
+         inkscape:transform-center-y="0.068195846" />
+    </g>
+  </g>
+</svg>
