@@ -3,8 +3,9 @@ using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
+// Displays all the items that the player has unlocked and can create with materials.
+[RequireComponent (typeof (BuyClothingItem))]
 public class PopulateUnlockedClothingPanels : MonoBehaviour {
-	public Canvas canvas;
 	public GameObject hatContent;
 	public GameObject capeContent;
 	public GameObject shoeContent;
