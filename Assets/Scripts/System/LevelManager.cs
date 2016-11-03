@@ -13,7 +13,6 @@ public class LevelManager : MonoBehaviour {
 	public static float piggyJump;
 	public static float piggyDamage;
 
-
 //	public float height1;
 //	public float height2;
 //	public float height3;
@@ -162,7 +161,9 @@ public class LevelManager : MonoBehaviour {
 
 	public void PauseGame() {
 		paused = true;
-		pauseScreen.SetActive (true);
+		if (pauseScreen) {
+			pauseScreen.SetActive (true);
+		}
 		if (pauseButton) {
 			pauseButton.gameObject.SetActive (false);
 			unpauseButton.gameObject.SetActive (true);
@@ -173,7 +174,9 @@ public class LevelManager : MonoBehaviour {
 
 	public void UnpauseGame() {
 		paused = false;
-		pauseScreen.SetActive (false);
+		if (pauseScreen) {
+			pauseScreen.SetActive (false);
+		}
 		if (pauseButton) {
 			unpauseButton.gameObject.SetActive (false);
 			pauseButton.gameObject.SetActive (true);

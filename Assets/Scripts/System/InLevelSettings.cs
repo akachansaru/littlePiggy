@@ -6,9 +6,9 @@ public class InLevelSettings : Settings {
 	public string levelName;
 	public static InLevelSettings Settings;
 
-	public GameObject oneTimeUseItemPanel;
-
 	public void Start() {
+		GlobalControl.Instance.Load();
+		base.SetSavedMusicSettings ();
 		Settings = this;
 	}
 
@@ -16,18 +16,8 @@ public class InLevelSettings : Settings {
 		get { return settingsPanel.activeSelf; }
 	}
 
-	public override void OpenSettings() {
-		LevelManager.levelManager.PauseGame();
-		LevelManager.levelManager.DeactivateButtons();
-		LevelManager.levelManager.player.GetComponent<Pig>().ToggleActiveMovementButtons(false);
-		settingsPanel.SetActive(true);
-	}
-
-	// Game will still be paused after settings are closed
-	// TODO Change it so game unpauses automatically after closing settings
 	public override void CloseSettings() {
-		LevelManager.levelManager.ActivateButtons();
-		settingsPanel.SetActive(false);
+		ClosePanel(settingsPanel);
 	}
 
 	public void RestartLevel() {
@@ -38,13 +28,6 @@ public class InLevelSettings : Settings {
 	public void QuitLevel() {
 		LevelManager.levelManager.UnpauseGame();
 		SceneManager.LoadScene("LevelSelection");
-	}
-
-	public void OpenItems() {
-		LevelManager.levelManager.PauseGame();
-		LevelManager.levelManager.DeactivateButtons();
-		LevelManager.levelManager.player.GetComponent<Pig>().ToggleActiveMovementButtons(false);
-		oneTimeUseItemPanel.SetActive(true);
 	}
 
 	public void OpenPanel(GameObject panel) {
