@@ -17,7 +17,7 @@ public class PiggyAttack : MonoBehaviour {
 			Debug.Log ("Kickbox layer: " + gameObject.layer);
 			if (other.gameObject.tag.Contains(ConstantValues.tags.enemy)) {
 				Debug.Log ("Kicked enemy " + other.gameObject.name);
-				other.gameObject.GetComponent<Enemy> ().TakeDamage (LevelManager.piggyDamage);
+				other.gameObject.GetComponent<Enemy.EnemyMovement> ().TakeDamage (LevelManager.piggyDamage);
 			}
 
 			if (other.gameObject.tag.Contains (ConstantValues.tags.button)) {

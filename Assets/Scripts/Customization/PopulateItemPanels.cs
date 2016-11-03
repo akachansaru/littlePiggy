@@ -3,20 +3,21 @@ using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
+// Displays all the items that the player has created. These items can be dragged onto the pig to wear them.
+// Goes onto the canvas.
+[RequireComponent (typeof (Canvas))]
 public class PopulateItemPanels : MonoBehaviour {
-	public Canvas canvas;
 	public GameObject hatContent;
 	public GameObject capeContent;
 	public GameObject shoeContent;
-	public GameObject itemUIPrefab;
 
-	// Use this for initialization
 	void Start () {
 		List<HeadItem> headItems = GlobalControl.Instance.savedData.headItems;
 		foreach (HeadItem headItem in headItems) {
 			Debug.Log ("Head item " + headItem.headItemStyle);
 			GameObject hatUI = Instantiate(HeadItemMethods.LoadUIPrefab(), hatContent.transform) as GameObject;
-			HeadItemMethods.ApplyUIAttributes (headItem, hatUI, canvas);
+			HeadItemMethods.ApplyUIAttributes (headItem, hatUI, GetComponent<Canvas>());
+			// TODO See if I can use LoadItemsOnPig instead for consistancy
 			if (headItem.currentlyWearing) {
 				ItemsOnPig.itemsOnPig.WearingHeadItem = true;
 				ItemsOnPig.itemsOnPig.HeadItem = Instantiate(HeadItemMethods.LoadPrefab (headItem));
@@ -24,11 +25,6 @@ public class PopulateItemPanels : MonoBehaviour {
 				ItemsOnPig.itemsOnPig.HeadItemUI = hatUI;
 				ItemsOnPig.itemsOnPig.HeadItemUI.GetComponent<DragWearableItem>().GrayOutListOption(true);
 			}
-//			hatUI.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Sprites/WearableItems/" + headItem.headItemStyle);
-//			hatUI.GetComponent<Image> ().color = SerializableColor.ToColor(headItem.headItemColor);
-//			hatUI.GetComponent<RectTransform> ().localScale = Vector3.one;
-//			hatUI.GetComponent<DragWearableItem> ().canvas = canvas;
-//			hatUI.GetComponent<DragWearableItem> ().itemPrefab = Resources.Load<GameObject> ("Prefabs/WearableItems/" + headItem.headItemStyle);
 		}
 	}
 }

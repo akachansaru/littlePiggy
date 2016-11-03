@@ -3,7 +3,8 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class SceneLoader : MonoBehaviour {
-	
+
+	// UNDONE Make the scene load with a smooth dimming effect for switching scenes
     public void LoadScene(string sceneName) {
 		GlobalControl.Instance.Load();
 		SceneManager.LoadScene(sceneName);

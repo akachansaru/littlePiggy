@@ -32,6 +32,7 @@ public class UseItem : MonoBehaviour {
 	}
 
 	public void Use() {
+		Debug.Log ("oneTimeItem: " + oneTimeItem.itemStat);
 		if (((oneTimeItem.itemStat == "Jump") && !usingJumpItem) ||
 		    ((oneTimeItem.itemStat == "Speed") && !usingSpeedItem)) {
 			if (oneTimeItem.itemStat == "Jump") {
@@ -86,14 +87,15 @@ public class UseItem : MonoBehaviour {
 		Debug.Log ("Timer start");
 		if (itemInfo.stat == "Jump") {
 			jumpTimer.StartTimer (itemInfo.statDuration);
-		} else if (itemInfo.stat == "Speed") {
+		} else if (itemInfo.stat == "Jump") {
 			speedTimer.StartTimer (itemInfo.statDuration);
 		}
 		yield return new WaitForSeconds ((float)itemInfo.statDuration);
-		if (oneTimeItem.itemStat == "Jump") {
+//		Debug.Log ("oneTimeItem: " + oneTimeItem.itemStat);
+		if (itemInfo.stat == "Jump") {
 			usingJumpItem = false;
 		}
-		if (oneTimeItem.itemStat == "Speed") {
+		if (itemInfo.stat == "Jump") {
 			usingSpeedItem = false;
 		}
 		RemoveItemEffects(itemInfo);
@@ -119,6 +121,7 @@ public class UseItem : MonoBehaviour {
 	void RemoveItemEffects(OneTimeItemInfo info) {
 		if (info.stat == "Jump") {
 			LevelManager.levelManager.jumpModifier = 0;
+			// TODO Make levelManager update stats whenever something is changed
 			Debug.Log ("Removed stats. Jump now " + LevelManager.piggyJump);
 		} else if (info.stat == "Speed") {
 			LevelManager.levelManager.speedModifier = 1;

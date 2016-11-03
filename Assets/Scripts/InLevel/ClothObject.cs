@@ -20,7 +20,7 @@ public class ClothObject : MonoBehaviour {
 	}
 
 	void Update() {
-		if (!LevelManager.paused) {
+		if (!InLevelSettings.paused) {
 			theta += oSpeed * Time.deltaTime;
 			if (theta > 360F) {
 				theta -= 360F;

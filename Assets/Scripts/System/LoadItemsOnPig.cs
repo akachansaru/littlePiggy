@@ -4,17 +4,13 @@ using System.Collections;
 public class LoadItemsOnPig : MonoBehaviour {
 
 	void Start() {
-		HeadItem current = FindCurrentHeadItem ();
+		HeadItem current = GlobalControl.Instance.savedData.headItems.Find (h => h.currentlyWearing);
 		if (current != null) {
 			LoadItems (current);
 			if (LevelManager.levelManager != null) {
 				ApplyStats (current);
 			}
 		}
-	}
-
-	HeadItem FindCurrentHeadItem() {
-		return GlobalControl.Instance.savedData.headItems.Find (h => h.currentlyWearing);
 	}
 
 	void LoadItems(HeadItem current) {
