@@ -8,7 +8,6 @@ public class LevelManager : MonoBehaviour {
 	public static int levelPayment;
 	public static bool piggyFallen;
 	public static bool levelComplete;
-	public static bool paused;
 	public static float piggySpeed;
 	public static float piggyJump;
 	public static float piggyDamage;
@@ -31,26 +30,14 @@ public class LevelManager : MonoBehaviour {
 	public int jumpModifier;
 	public float damageModifier;
 	//UI stuff
-	public GameObject failScreen;
-	public GameObject pauseScreen;
-	public Button settingsButton;
-	public Button pauseButton;
-	public Button unpauseButton;
-	public Button itemButton;
+//	public GameObject failScreen;
 	public GameObject levelCompleteScreen;
 	public GameObject finalDonutCount;
-	// Donuts
-	public GameObject cinnamonHolePrefab;
-	public GameObject chocolateHolePrefab;
-	public GameObject sprinklesHolePrefab;
-	public GameObject chocolatePrefab;
-	public GameObject strawberryPrefab;
 
 	public LevelSaveValues levelInstance = new LevelSaveValues();
 //	public LevelSaveValues savedLevelInstance = new LevelSaveValues();
 
 	private Text finalDonutCountText;
-	private GameObject donutPrefab;
 	private int modifiedDonutCount;
 
 	void Start() {
@@ -59,13 +46,11 @@ public class LevelManager : MonoBehaviour {
 		speedModifier = 1f;
 		jumpModifier = 0;
 		damageModifier = 1f;
-//		LoadPigItems ();
 		levelInstance.donutsCollected = 0;
 		levelInstance.clothCollected = 0;
 		levelInstance.levelDonutCount = levelPayment;
 		piggyFallen = false;
 		levelComplete = false;
-		paused = false;
 		ScalePiggyStats(); // Initially will be scaled on levelPayment + wearable item modifiers
 	}
 
@@ -77,29 +62,6 @@ public class LevelManager : MonoBehaviour {
 		if (levelComplete) {
 			LevelComplete();
 		}
-	}
-
-	public GameObject GetDonutPrefab(string donutName) {
-		if (donutName == ConstantValues.donutNames.cinnamonHole) {
-			donutPrefab = cinnamonHolePrefab;
-		} else if (donutName == ConstantValues.donutNames.chocolateHole) {
-			donutPrefab = chocolateHolePrefab;
-		} else if (donutName == ConstantValues.donutNames.sprinklesHole) {
-			donutPrefab = sprinklesHolePrefab;
-		} else if (donutName == ConstantValues.donutNames.chocolate) {
-			donutPrefab = chocolatePrefab;
-		} else if (donutName == ConstantValues.donutNames.strawberry) {
-			donutPrefab = strawberryPrefab;
-		} else {
-			Debug.Log ("Incorrect donut name");
-			donutPrefab = cinnamonHolePrefab;
-		}
-		return donutPrefab;
-	}
-
-	IEnumerator InstantiateDonut(GameObject donutPrefab, Vector2 position) {
-		yield return new WaitForSeconds(2f);
-		Instantiate(donutPrefab, position, Quaternion.identity);
 	}
 
 	// Returns the maximum height piggy can jump to with the current amount of donuts
@@ -151,40 +113,6 @@ public class LevelManager : MonoBehaviour {
 		piggyDamage = (damageScale * levelInstance.levelDonutCount + baseDamage) * damageModifier;
 	}
 
-	public void TogglePauseGame() {
-		if (!paused) {
-			PauseGame();
-		} else {
-			UnpauseGame();
-		}
-	}
-
-	public void PauseGame() {
-		paused = true;
-		if (pauseScreen) {
-			pauseScreen.SetActive (true);
-		}
-		if (pauseButton) {
-			pauseButton.gameObject.SetActive (false);
-			unpauseButton.gameObject.SetActive (true);
-		}
-		Time.timeScale = 0f;
-		player.GetComponent<Pig>().ToggleActiveMovementButtons(false);
-	}
-
-	public void UnpauseGame() {
-		paused = false;
-		if (pauseScreen) {
-			pauseScreen.SetActive (false);
-		}
-		if (pauseButton) {
-			unpauseButton.gameObject.SetActive (false);
-			pauseButton.gameObject.SetActive (true);
-		}
-		Time.timeScale = 1f;
-		player.GetComponent<Pig>().ToggleActiveMovementButtons(true);
-	}
-
 	void LevelComplete() {
 		player.GetComponent<Pig>().ToggleActiveMovementButtons(false);
 		player.GetComponent<Pig> ().StopForward ();
@@ -201,34 +129,9 @@ public class LevelManager : MonoBehaviour {
 			Debug.Log("Level " + (levelNumber + 1) + " unlocked");
 		}
 		
-		DeactivateButtons();
+		InLevelSettings.Settings.DeactivateButtons();
 		GlobalControl.Instance.Save();
 		Debug.Log("Level complete.");
-	}
-
-	public void DeactivateButtons() {
-		if (settingsButton) {
-			settingsButton.gameObject.SetActive (false);
-		}
-		if (itemButton) {
-			itemButton.gameObject.SetActive (false);
-		}
-		if (pauseButton) {
-			pauseButton.gameObject.SetActive (false);
-			unpauseButton.gameObject.SetActive (false);
-		}
-	}
-
-	public void ActivateButtons() {
-		if (settingsButton) {
-			settingsButton.gameObject.SetActive (true);
-		}
-		if (itemButton) {
-			itemButton.gameObject.SetActive (true);
-		}
-		if (unpauseButton) {
-			unpauseButton.gameObject.SetActive (true);
-		}
 	}
 
 	// Called when a checkpoint is reached
