@@ -288,7 +288,7 @@ public class Pig : MonoBehaviour {
 		// Cases for colliding with a platform or the ground
 		if (collisionTag.Contains(ConstantValues.tags.landable)) {
 			// Lands the piggy if jumping and hits the floor
-			if (!standingOn && (rb.velocity.y == 0)) {
+			if (!standingOn && (rb.velocity.y <= 0)) {
 				LandPiggy (other.gameObject);
 				// Moving platforms
 				if (collisionTag.Contains(ConstantValues.tags.moving)) {
