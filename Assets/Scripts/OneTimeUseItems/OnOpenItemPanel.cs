@@ -5,7 +5,7 @@ using UnityEngine.UI;
 // For in level when player clicks on the item button to view purchased items
 public class OnOpenItemPanel : MonoBehaviour {
 
-	public GameObject itemManager;
+	public UseItem itemManager;
 	public GameObject itemPanel;
 
 	void Start() {
@@ -25,6 +25,6 @@ public class OnOpenItemPanel : MonoBehaviour {
 		itemButton.transform.localScale = Vector3.one;
 		item.AddInfo (itemButton);
 		itemButton.transform.GetComponentInChildren<Text> ().text = itemButton.GetComponent<OneTimeItemInfo> ().itemName;
-		itemButton.GetComponent<Button>().onClick.AddListener(() => itemManager.GetComponent<UseItem>().OpenUseItemPanel());
+		itemButton.GetComponent<Button>().onClick.AddListener(() => itemManager.OpenUseItemPanel());
 	}
 }
