@@ -39,18 +39,11 @@ public class LevelManager : MonoBehaviour {
 	public Button itemButton;
 	public GameObject levelCompleteScreen;
 	public GameObject finalDonutCount;
-	// Donuts
-	public GameObject cinnamonHolePrefab;
-	public GameObject chocolateHolePrefab;
-	public GameObject sprinklesHolePrefab;
-	public GameObject chocolatePrefab;
-	public GameObject strawberryPrefab;
 
 	public LevelSaveValues levelInstance = new LevelSaveValues();
 //	public LevelSaveValues savedLevelInstance = new LevelSaveValues();
 
 	private Text finalDonutCountText;
-	private GameObject donutPrefab;
 	private int modifiedDonutCount;
 
 	void Start() {
@@ -77,29 +70,6 @@ public class LevelManager : MonoBehaviour {
 		if (levelComplete) {
 			LevelComplete();
 		}
-	}
-
-	public GameObject GetDonutPrefab(string donutName) {
-		if (donutName == ConstantValues.donutNames.cinnamonHole) {
-			donutPrefab = cinnamonHolePrefab;
-		} else if (donutName == ConstantValues.donutNames.chocolateHole) {
-			donutPrefab = chocolateHolePrefab;
-		} else if (donutName == ConstantValues.donutNames.sprinklesHole) {
-			donutPrefab = sprinklesHolePrefab;
-		} else if (donutName == ConstantValues.donutNames.chocolate) {
-			donutPrefab = chocolatePrefab;
-		} else if (donutName == ConstantValues.donutNames.strawberry) {
-			donutPrefab = strawberryPrefab;
-		} else {
-			Debug.Log ("Incorrect donut name");
-			donutPrefab = cinnamonHolePrefab;
-		}
-		return donutPrefab;
-	}
-
-	IEnumerator InstantiateDonut(GameObject donutPrefab, Vector2 position) {
-		yield return new WaitForSeconds(2f);
-		Instantiate(donutPrefab, position, Quaternion.identity);
 	}
 
 	// Returns the maximum height piggy can jump to with the current amount of donuts

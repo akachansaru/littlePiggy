@@ -12,7 +12,7 @@ public class Mud : MonoBehaviour {
 				- LevelManager.levelManager.levelInstance.levelDonutCount);
 		}
 		if (other.gameObject.CompareTag(ConstantValues.tags.enemy)) {
-			other.gameObject.GetComponent<Enemy> ().ModifySpeed (speedModifier);
+			other.gameObject.GetComponent<Enemy.EnemyMovement> ().ModifySpeed (speedModifier);
 		}
 	}
 
@@ -22,7 +22,7 @@ public class Mud : MonoBehaviour {
 			other.gameObject.GetComponent<Pig> ().ModifyJump (0);
 		}
 		if (other.gameObject.CompareTag(ConstantValues.tags.enemy)) {
-			other.gameObject.GetComponent<Enemy> ().ModifySpeed (1/speedModifier);
+			other.gameObject.GetComponent<Enemy.EnemyMovement> ().ModifySpeed (1/speedModifier);
 		}
 	}
 }

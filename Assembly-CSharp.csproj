@@ -60,7 +60,8 @@
      <Compile Include="Assets\Scripts\InLevel\DoOnButtonPress.cs" />
      <Compile Include="Assets\Scripts\InLevel\Donut.cs" />
      <Compile Include="Assets\Scripts\InLevel\Door.cs" />
-     <Compile Include="Assets\Scripts\InLevel\Enemy.cs" />
+     <Compile Include="Assets\Scripts\InLevel\EnemyDropManager.cs" />
+     <Compile Include="Assets\Scripts\InLevel\EnemyMovement.cs" />
      <Compile Include="Assets\Scripts\InLevel\Ground.cs" />
      <Compile Include="Assets\Scripts\InLevel\InteractableButton.cs" />
      <Compile Include="Assets\Scripts\InLevel\JumpOffPlatform.cs" />
