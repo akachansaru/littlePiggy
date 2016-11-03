@@ -1,10 +1,19 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class InLevelSettings : Settings {
-
-	public string levelName;
 	public static InLevelSettings Settings;
+	public static bool paused = false;
+
+	public GameObject player;
+	public string levelName;
+	public GameObject itemPanel;
+	public GameObject pauseScreen;
+	public Button settingsButton;
+	public Button pauseButton;
+	public Button unpauseButton;
+	public Button itemButton;
 
 	public void Start() {
 		GlobalControl.Instance.Load();
@@ -16,30 +25,92 @@ public class InLevelSettings : Settings {
 		get { return settingsPanel.activeSelf; }
 	}
 
+	public override void OpenSettings() {
+		OpenPanel(settingsPanel);
+	}
+
 	public override void CloseSettings() {
 		ClosePanel(settingsPanel);
 	}
 
+	public void OpenItems() {
+		OpenPanel(itemPanel);
+	}
+
+	public void CloseItems() {
+		ClosePanel(itemPanel);
+	}
+
 	public void RestartLevel() {
-		LevelManager.levelManager.UnpauseGame();
+		UnpauseGame();
 		SceneManager.LoadScene(levelName);
 	}
 
 	public void QuitLevel() {
-		LevelManager.levelManager.UnpauseGame();
+		UnpauseGame();
 		SceneManager.LoadScene("LevelSelection");
 	}
 
-	public void OpenPanel(GameObject panel) {
-		LevelManager.levelManager.PauseGame();
-		LevelManager.levelManager.DeactivateButtons();
-		LevelManager.levelManager.player.GetComponent<Pig>().ToggleActiveMovementButtons(false);
+	public void PauseGame() {
+		paused = true;
+		if (pauseScreen) {
+			pauseScreen.SetActive (true);
+		}
+		if (pauseButton) {
+			pauseButton.gameObject.SetActive (false);
+			unpauseButton.gameObject.SetActive (true);
+		}
+		Time.timeScale = 0f;
+		player.GetComponent<Pig>().ToggleActiveMovementButtons(false);
+	}
+
+	public void UnpauseGame() {
+		paused = false;
+		if (pauseScreen) {
+			pauseScreen.SetActive (false);
+		}
+		if (pauseButton) {
+			unpauseButton.gameObject.SetActive (false);
+			pauseButton.gameObject.SetActive (true);
+		}
+		Time.timeScale = 1f;
+		player.GetComponent<Pig>().ToggleActiveMovementButtons(true);
+	}
+
+	void OpenPanel(GameObject panel) {
+		PauseGame();
+		DeactivateButtons();
 		panel.SetActive(true);
 	}
 
-	public void ClosePanel(GameObject panel) {
-		LevelManager.levelManager.UnpauseGame();
-		LevelManager.levelManager.ActivateButtons();
+	void ClosePanel(GameObject panel) {
+		UnpauseGame();
+		ActivateButtons();
 		panel.SetActive(false);
+	}
+
+	public void DeactivateButtons() {
+		if (settingsButton) {
+			settingsButton.gameObject.SetActive (false);
+		}
+		if (itemButton) {
+			itemButton.gameObject.SetActive (false);
+		}
+		if (pauseButton) {
+			pauseButton.gameObject.SetActive (false);
+			unpauseButton.gameObject.SetActive (false);
+		}
+	}
+
+	public void ActivateButtons() {
+		if (settingsButton) {
+			settingsButton.gameObject.SetActive (true);
+		}
+		if (itemButton) {
+			itemButton.gameObject.SetActive (true);
+		}
+		if (pauseButton) {
+			pauseButton.gameObject.SetActive (true);
+		}
 	}
 }

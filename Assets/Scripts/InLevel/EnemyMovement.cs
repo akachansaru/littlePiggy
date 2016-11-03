@@ -5,6 +5,11 @@ using System.Collections;
 namespace Enemy {
 	[RequireComponent (typeof(ParticleSystem))]
 	[RequireComponent (typeof(EnemyDropManager))]
+	[RequireComponent (typeof(SpriteRenderer))]
+	[RequireComponent (typeof(BoxCollider2D))]
+	[RequireComponent (typeof(Rigidbody2D))]
+	[RequireComponent (typeof(DestroyOnFall))]
+	[RequireComponent (typeof(Animator))]
 	public class EnemyMovement : MonoBehaviour {
 
 		public float maxHp;
@@ -45,7 +50,6 @@ namespace Enemy {
 			speed *= speedModifier;
 		}
 
-		// Use this for initialization
 		void Start() {
 			rb = GetComponent<Rigidbody2D>();
 			anim = GetComponent<Animator>();

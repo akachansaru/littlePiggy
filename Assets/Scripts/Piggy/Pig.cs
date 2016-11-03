@@ -307,20 +307,6 @@ public class Pig : MonoBehaviour {
 //			}
 		}
 	 }
-//	private bool notMoving;
-//	private float startVel, endVel;
-//	void OnCollisionStay2D(Collision2D other) {
-//		Wait (0.1f);
-//	}
-//
-//	IEnumerator Wait(float time) {
-//		startVel = rb.velocity.y;
-//		yield return new WaitForSeconds (time);
-//		endVel = rb.velocity.y;
-//		if (startVel == endVel) {
-//			notMoving = true;
-//		}
-//	}
 
 	void LandPiggy(GameObject landedOn) {
 		standingOn = landedOn;

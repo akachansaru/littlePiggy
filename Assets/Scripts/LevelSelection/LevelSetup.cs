@@ -24,8 +24,8 @@ public class LevelSetup : MonoBehaviour {
 
 	// The input has to be in this format: LevelOne_0_10 for the level "LevelOne" with a min payment of 0 and max of 10
 	public void SelectLevelPayment(string levelNameAndPayment) {
-		LevelManager.levelManager.PauseGame();
-		LevelManager.levelManager.DeactivateButtons();
+		InLevelSettings.Settings.PauseGame();
+		InLevelSettings.Settings.DeactivateButtons();
 		paymentPanel.SetActive(true);
 		string[] split = levelNameAndPayment.Split(delimiter);
 		levelName = split[0];
@@ -50,8 +50,8 @@ public class LevelSetup : MonoBehaviour {
 						GlobalControl.Instance.savedData.SafeDonutCount -= paymentOffer;
 						// **************************************************************
 						SceneManager.LoadScene(levelName);
-						LevelManager.levelManager.UnpauseGame();
-						LevelManager.levelManager.ActivateButtons();
+						InLevelSettings.Settings.UnpauseGame();
+						InLevelSettings.Settings.ActivateButtons();
 					} else {
 						paymentInputField.text = string.Empty;
 						placeholder.GetComponent<Text>().text = "Not enough donuts...";
@@ -70,7 +70,7 @@ public class LevelSetup : MonoBehaviour {
 
 	public void CancelLevelSelection() {
 		paymentPanel.SetActive(false);
-		LevelManager.levelManager.ActivateButtons();
-		LevelManager.levelManager.UnpauseGame();
+		InLevelSettings.Settings.ActivateButtons();
+		InLevelSettings.Settings.UnpauseGame();
 	}
 }
