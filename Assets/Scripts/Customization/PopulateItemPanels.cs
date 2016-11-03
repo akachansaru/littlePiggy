@@ -7,6 +7,7 @@ using System.Collections.Generic;
 // Goes onto the canvas.
 [RequireComponent (typeof (Canvas))]
 public class PopulateItemPanels : MonoBehaviour {
+	public GameObject player;
 	public GameObject hatContent;
 	public GameObject capeContent;
 	public GameObject shoeContent;
@@ -20,7 +21,7 @@ public class PopulateItemPanels : MonoBehaviour {
 			// TODO See if I can use LoadItemsOnPig instead for consistancy
 			if (headItem.currentlyWearing) {
 				ItemsOnPig.itemsOnPig.WearingHeadItem = true;
-				ItemsOnPig.itemsOnPig.HeadItem = Instantiate(HeadItemMethods.LoadPrefab (headItem));
+				ItemsOnPig.itemsOnPig.HeadItem = Instantiate(HeadItemMethods.LoadPrefab (headItem), player.transform) as GameObject;
 				HeadItemMethods.ApplyAttributes (headItem, ItemsOnPig.itemsOnPig.HeadItem);
 				ItemsOnPig.itemsOnPig.HeadItemUI = hatUI;
 				ItemsOnPig.itemsOnPig.HeadItemUI.GetComponent<DragWearableItem>().GrayOutListOption(true);
