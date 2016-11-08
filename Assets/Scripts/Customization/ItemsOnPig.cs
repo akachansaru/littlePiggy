@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-// Attached to the pig area box. Only one around
+/// <summary>
+///  Attached to the pig area box in the Customizaton scene.
+/// </summary>
 public class ItemsOnPig : MonoBehaviour {
 
 	public static ItemsOnPig itemsOnPig;

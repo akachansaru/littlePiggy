@@ -237,7 +237,7 @@ public class Pig : MonoBehaviour {
 				rb.AddForce (Vector3.right * LevelManager.piggySpeed, ForceMode2D.Force);
 			} else {
 				// Move forward while in the air
-				rb.AddForce (new Vector2 (LevelManager.piggySpeed * jumpMovementScale, 0f), ForceMode2D.Force);
+				rb.AddForce (Vector3.right * LevelManager.piggySpeed * jumpMovementScale, ForceMode2D.Force);
 			}
 		}
 		if ((-rb.velocity.x <= LevelManager.piggySpeed) && piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.backward)) {
@@ -246,7 +246,7 @@ public class Pig : MonoBehaviour {
 				rb.AddForce (Vector3.left * LevelManager.piggySpeed, ForceMode2D.Force);
 			} else {
 				// Move backward while in the air
-				rb.AddForce (new Vector2 (LevelManager.piggySpeed * -jumpMovementScale, 0f), ForceMode2D.Force);
+				rb.AddForce (Vector3.left * LevelManager.piggySpeed * jumpMovementScale, ForceMode2D.Force);
 			}
 		}
 	}
@@ -276,7 +276,6 @@ public class Pig : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D other) {
 		Debug.Log("Entering " + other.collider.gameObject.name);
-
 		string collisionTag = other.collider.gameObject.tag;
 
 		// Check if Piggy has fallen off the world
@@ -287,23 +286,15 @@ public class Pig : MonoBehaviour {
 		// Cases for colliding with a platform or the ground
 		if (collisionTag.Contains(ConstantValues.tags.landable)) {
 			// Lands the piggy if jumping and hits the floor
-			if (!standingOn && (rb.velocity.y <= 0)) {
+			if (!standingOn && (Mathf.Abs(rb.velocity.y) <= 0.01f)) {
 				LandPiggy (other.gameObject);
-				// Moving platforms
+
+				// Make piggy move relative to platform.
 				if (collisionTag.Contains(ConstantValues.tags.moving)) {
-					// Make piggy move relative to platform
 					player.transform.parent = other.gameObject.transform;
 					Debug.Log("On moving platform.");
-				} //else {
-//					// Remove piggy from platform. Move normally
-//					player.transform.parent = null;
 				}
-//			} else if (standingOn) {
-//				// Piggy is already on the ground so no need to land. bumped is checked when exiting a landable
-//				bumped = true;
-//				bumpedObject = other.gameObject;
-//				Debug.Log ("Bump start: " + bumpedObject.name);
-//			}
+			}
 		}
 	 }
 
@@ -317,7 +308,6 @@ public class Pig : MonoBehaviour {
 			CameraController.cameraController.Ground = standingOn;
 		}
 		Debug.Log("Landed. Standing on " + standingOn);
-//		Debug.Log ("Jump length = " + (transform.position.x - startingPosition.x));
 		piggyAnimator.SetBool(ConstantValues.piggyAnimatorParameterNames.jump, false);
 		if (gameStart) {
 			gameStart = false;
@@ -339,23 +329,17 @@ public class Pig : MonoBehaviour {
 
 		// Covers cases for piggy leaving the ground or a platform, including bumping into a platform while walking
 		if (other.gameObject.Equals(standingOn)) {
-//			if (!bumped) {
-				// Go into jump animation if leaving the ground by falling or jumping, but not by going through a one-way platform when piggy is already jumping
+			// Go into jump animation if leaving the ground by falling or jumping, 
+			// but not by going through a one-way platform when piggy is already jumping
 			if (!piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.jump)) {
-					StartJumpAnimation ();
+				StartJumpAnimation ();
 			}
-			// Moving platforms
+
+			// Remove piggy from moving platform after jumping. Move normally
 			if (collisionTag.Contains(ConstantValues.tags.moving)) {
-				// Remove piggy from platform after jumping. Move normally
 				Debug.Log("Off moving platform.");
 				player.transform.parent = null;
 			}
-//			} else if (bumped && (other.gameObject.Equals(bumpedObject))){
-//				// Reset bumped for next time piggy walks into a platform
-//				bumped = false;
-//				bumpedObject = null;
-//				Debug.Log ("Bump end.");
-//			}
 	 	}
 	 }
 }
