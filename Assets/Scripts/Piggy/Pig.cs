@@ -77,7 +77,7 @@ public class Pig : MonoBehaviour {
 	}
 
 	void Start() {
-		piggyAnimator = GetComponent<Animator> ();
+		piggyAnimator = GetComponentInChildren<Animator> ();
 		rb = GetComponent<Rigidbody2D>();
 		player = gameObject;
 		jump = false;

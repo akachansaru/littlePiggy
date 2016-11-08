@@ -2,6 +2,9 @@
 using System.Collections;
 
 public class LoadItemsOnPig : MonoBehaviour {
+	public GameObject body;
+	public GameObject ears;
+	public GameObject legs;
 
 	void Start() {
 		HeadItem current = GlobalControl.Instance.savedData.headItems.Find (h => h.currentlyWearing);
@@ -15,7 +18,7 @@ public class LoadItemsOnPig : MonoBehaviour {
 
 	void LoadItems(HeadItem current) {
 		Debug.Log ("Loading pig items. CurrentHeadItem = " + current.ToString());
-		GameObject headItem = Instantiate (HeadItemMethods.LoadPrefab(current), transform) as GameObject;
+		GameObject headItem = Instantiate (HeadItemMethods.LoadPrefab(current), ears.transform) as GameObject;
 		HeadItemMethods.ApplyAttributes (current, headItem); // Should change the color
 		headItem.GetComponent<BoxCollider2D> ().isTrigger = true;
 		headItem.transform.localScale = Vector3.one;
