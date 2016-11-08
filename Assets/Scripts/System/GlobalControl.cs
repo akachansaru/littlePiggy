@@ -55,7 +55,6 @@ public class GlobalControl : MonoBehaviour {
 		Application.Quit ();
 	}
 
-	// FIXME Sound settings aren't saved properly
     public void Save() {
 		BinaryFormatter bf = new BinaryFormatter();
 		FileStream file = File.Create(Application.persistentDataPath + "/saveValues.sheep");
