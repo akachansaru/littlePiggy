@@ -16,13 +16,12 @@ public class Pig : MonoBehaviour {
 	public GameObject kickButton;
 	public AnimationClip kickAnimation; // Can be forward or backward since they should be the same time
 
-	private bool jump;
-	private bool kicked; // Make piggy only kick once per kick animation
+	private bool jump = false;
+	private bool kicked = false;
 	private AnimatorStateInfo currStateInfo;
 	private AnimatorStateInfo newStateInfo;
 	private float kickAnimationTime;
-	private float jumpMovementScale; // Multiplier for moving while in the air. Should be < 1
-
+	private float jumpMovementScale = 0.5f; // Multiplier for moving while in the air. Should be < 1
 	//Physical piggy paramters
 	private Rigidbody2D rb;
 	private Animator piggyAnimator;
@@ -30,16 +29,14 @@ public class Pig : MonoBehaviour {
 	// The current surface piggy is on
 	private GameObject standingOn;
 
-	private bool gameStart;
-	private bool bumped; // If piggy collides with a landable while walking
+	private bool gameStart = true;
+	private bool bumped = false; // If piggy collides with a landable while walking
 	private GameObject bumpedObject;
 
 	private Vector2 lastVelocity = Vector2.zero;
 	private Vector2 startingPosition;
 //	private float startingTime;
 	private float jumpTime;
-
-	// Properties
 
 	public bool GameStart {
 		get { return gameStart; }
@@ -54,7 +51,6 @@ public class Pig : MonoBehaviour {
 		get { return piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.jump); }
 	}
 
-	// Make piggy only kick once per kick animation
 	public bool Kicked {
 		get { return kicked; }
 		set { kicked = value; }
@@ -80,19 +76,17 @@ public class Pig : MonoBehaviour {
 		piggyAnimator = GetComponentInChildren<Animator> ();
 		rb = GetComponent<Rigidbody2D>();
 		player = gameObject;
-		jump = false;
-		kicked = false;
-		gameStart = true;
-		bumped = false;
 		currStateInfo = piggyAnimator.GetCurrentAnimatorStateInfo(0);
 		kickAnimationTime = kickAnimation.length;
-		jumpMovementScale = 0.5f;
 
 		// Deactivate all buttons until Piggy lands initially
 		ChangeButtonStatusAll (false);
 	}
 
-	// Activate or deactivate buttons while an animation is happening
+	/// <summary>
+	/// Activate or deactivate buttons while an animation is happening.
+	/// </summary>
+	/// <param name="interactable">If set to <c>true</c> interactable.</param>
 	public void ChangeButtonStatusAll(bool interactable) {
 		ChangeButtonStatusIndividual (forwardButton, interactable);
 		ChangeButtonStatusIndividual (backwardButton, interactable);
@@ -228,33 +222,39 @@ public class Pig : MonoBehaviour {
 			jump = false;
 		}
 
-		// Move piggy on ground or in air if not over max horizontal speed
-		if (Mathf.Abs(rb.velocity.x) <= LevelManager.piggySpeed) {
-			if (standingOn) {
-				// FIXME Piggy spazzes when forward and backward are pressed at the same time (queue it up?)
-				// Walk forward
-				if (piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.forward)) {
-					rb.AddForce (Vector3.right * LevelManager.piggySpeed, ForceMode2D.Force);
-				}
-				// Walk backward
-				if (piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.backward)) {
-					rb.AddForce (Vector3.left * LevelManager.piggySpeed, ForceMode2D.Force);
-				}
-//				Debug.Log ("velocity  = " + rb.velocity);
-			} else {
-				// Move forward while in the air
-				if (piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.forward)) {
-					rb.AddForce (new Vector2 (LevelManager.piggySpeed * jumpMovementScale, 0f), ForceMode2D.Force);
-				}
-				// Move backward while in the air
-				if (piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.backward)) {
-					rb.AddForce (new Vector2 (LevelManager.piggySpeed * -jumpMovementScale, 0f), ForceMode2D.Force);
-				}
-			}
-		}
+		MovePiggy ();
 		lastVelocity = rb.velocity;
 	}
+		
+	/// <summary>
+	/// Moves the piggy on ground or in air based on input if not over max horizontal speed.
+	/// </summary>
+	void MovePiggy() {
+		if ((rb.velocity.x <= LevelManager.piggySpeed) && piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.forward)) {
+			if (standingOn) {
+				// FIXME Piggy spazzes when forward and backward are pressed at the same time (queue it up?)
+				// Move forward on the ground
+				rb.AddForce (Vector3.right * LevelManager.piggySpeed, ForceMode2D.Force);
+			} else {
+				// Move forward while in the air
+				rb.AddForce (new Vector2 (LevelManager.piggySpeed * jumpMovementScale, 0f), ForceMode2D.Force);
+			}
+		}
+		if ((-rb.velocity.x <= LevelManager.piggySpeed) && piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.backward)) {
+			if (standingOn) {
+				// Move backward on the ground
+				rb.AddForce (Vector3.left * LevelManager.piggySpeed, ForceMode2D.Force);
+			} else {
+				// Move backward while in the air
+				rb.AddForce (new Vector2 (LevelManager.piggySpeed * -jumpMovementScale, 0f), ForceMode2D.Force);
+			}
+		}
+	}
 
+	/// <summary>
+	/// SetActive(isActive) is called for all of the pig control buttons.
+	/// </summary>
+	/// <param name="isActive">If set to <c>true</c> is active.</param>
 	public void ToggleActiveMovementButtons(bool isActive) {
 		forwardButton.SetActive(isActive);
 		backwardButton.SetActive(isActive);
@@ -274,7 +274,6 @@ public class Pig : MonoBehaviour {
 			(currStateInfo.IsName("PiggyJumpBackward") && newStateInfo.IsName("PiggyJumpForward")));
 	}
 
-	// Lands the piggy if he hits the floor
 	void OnCollisionEnter2D(Collision2D other) {
 		Debug.Log("Entering " + other.collider.gameObject.name);
 
@@ -308,6 +307,10 @@ public class Pig : MonoBehaviour {
 		}
 	 }
 
+	/// <summary>
+	/// Lands the piggy if he hits the floor.
+	/// </summary>
+	/// <param name="landedOn">Landed on.</param>
 	void LandPiggy(GameObject landedOn) {
 		standingOn = landedOn;
 		if (standingOn.tag.Contains(ConstantValues.tags.heightChange)) {
