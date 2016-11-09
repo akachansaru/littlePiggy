@@ -33,21 +33,24 @@ public class GlobalControl : MonoBehaviour {
 	public void Update() {
 		// TODO Maybe check for escape button inside SceneLoader.cs
 		if (Input.GetKey (KeyCode.Escape)) {
-			if (!InLevelSettings.Settings.SettingsOpen) {
-				if (SceneManager.GetActiveScene ().name.Equals ("LevelSelection")) {
-					// UNDONE Ask if user wants to exit app
-					AskToQuit();
-
-				} else if (SceneManager.GetActiveScene ().name.Equals ("Customization")) {
-					GlobalControl.Instance.Save (); // Saves the items placed on the pig
-					SceneManager.LoadScene ("LevelSelection");
-				} else {
-					// UNDONE Ask if user wants to return to quit level
-					SceneManager.LoadScene ("LevelSelection");
-				}
+//			if (!InLevelSettings.Settings.SettingsOpen) {
+			if (SceneManager.GetActiveScene ().name.Equals ("MainMenu")) {
+				// UNDONE Ask if user wants to exit app
+				AskToQuit ();
+			} else if (SceneManager.GetActiveScene ().name.Equals ("LevelSelection")) {
+				SceneManager.LoadScene ("MainMenu");
+			} else if (SceneManager.GetActiveScene ().name.Equals ("Customization")) {
+				GlobalControl.Instance.Save (); // Saves the items placed on the pig
+				SceneManager.LoadScene ("LevelSelection");
+			} else if (SceneManager.GetActiveScene ().name.Equals ("ItemCreation")) {
+				SceneManager.LoadScene ("Customization");
 			} else {
-				InLevelSettings.Settings.CloseSettings ();
+				// UNDONE Ask if user wants to return to quit level
+				SceneManager.LoadScene ("LevelSelection");
 			}
+//			} else {
+//				InLevelSettings.Settings.CloseSettings ();
+//			}
 		}
 	}
 

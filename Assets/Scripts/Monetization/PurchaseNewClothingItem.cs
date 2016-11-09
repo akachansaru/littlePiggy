@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 /// <summary>
-/// Used to buy an unlocked clothing item for cloth and brings the player to the item customization screen.
+/// Used to purchase a clothing item that hasn't been unlocked from the IAP screen.
 /// </summary>
 public class PurchaseNewClothingItem : MonoBehaviour {
 
@@ -26,7 +26,7 @@ public class PurchaseNewClothingItem : MonoBehaviour {
 		price = item.GetComponentInChildren<Text>().text;
 		itemImage = wearableItemInfo.image;
 		statBoostText.text = wearableItemInfo.stat + " +" + wearableItemInfo.statIncrease;
-		priceText.text = "Buy for " + price;
+		priceText.text = "Unlock this item for " + price;
 		buyItemPanel.SetActive(true);
 	}
 
