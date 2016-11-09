@@ -13,7 +13,10 @@ public class BuyItem : MonoBehaviour {
 	private OneTimeItem oneTimeItem;
 	private int price;
 
-	// Opens the panel with information about specific item, for example, coffee
+	/// <summary>
+	///  Opens the panel with information about specific item, for example, coffee.
+	/// </summary>
+	/// <param name="itemInfo">Item info.</param>
 	public void OpenBuyItemPanel(OneTimeItemInfo itemInfo) {
 		oneTimeItem = itemInfo.MakeItem();
 		price = itemInfo.price;

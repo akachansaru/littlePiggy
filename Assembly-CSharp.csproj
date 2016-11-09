@@ -76,6 +76,7 @@
      <Compile Include="Assets\Scripts\LevelSelection\LevelSetup.cs" />
      <Compile Include="Assets\Scripts\LevelSelection\StoreEntry.cs" />
      <Compile Include="Assets\Scripts\Monetization\Ads.cs" />
+     <Compile Include="Assets\Scripts\Monetization\PurchaseNewClothingItem.cs" />
      <Compile Include="Assets\Scripts\Monetization\Purchaser.cs" />
      <Compile Include="Assets\Scripts\OneTimeUseItems\BuyItem.cs" />
      <Compile Include="Assets\Scripts\OneTimeUseItems\OnOpenItemPanel.cs" />
