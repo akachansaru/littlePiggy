@@ -83,7 +83,6 @@
      <Compile Include="Assets\Scripts\OneTimeUseItems\OneTimeItemInfo.cs" />
      <Compile Include="Assets\Scripts\OneTimeUseItems\Timer.cs" />
      <Compile Include="Assets\Scripts\OneTimeUseItems\UseItem.cs" />
-     <Compile Include="Assets\Scripts\Piggy\BounceWithPig.cs" />
      <Compile Include="Assets\Scripts\Piggy\MoveWithPig.cs" />
      <Compile Include="Assets\Scripts\Piggy\Pig.cs" />
      <Compile Include="Assets\Scripts\Piggy\PigControlButtons.cs" />

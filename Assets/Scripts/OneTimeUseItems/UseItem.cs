@@ -42,7 +42,7 @@ public class UseItem : MonoBehaviour {
 				usingSpeedItem = true;
 			}
 			RemoveSavedItem (oneTimeItem);
-//		GlobalControl.Instance.Save(); // TODO Remove comments once I'm done debugging
+			GlobalControl.Instance.Save();
 			ApplyStats (selectedItem.GetComponent<OneTimeItemInfo> ());
 			// Won't start the countdown until the game is unpaused because using WaitForSeconds
 			StartCoroutine (StartTimer (selectedItem.GetComponent<OneTimeItemInfo> ()));
