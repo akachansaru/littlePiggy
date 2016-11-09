@@ -83,6 +83,7 @@ public class Purchaser : MonoBehaviour, IStoreListener {
 		// Buy the non-consumable product using its general identifier. Expect a response either 
 		// through ProcessPurchase or OnPurchaseFailed asynchronously.
 		BuyProductID (id);
+		// UNDONE Add functionality to buy new clothing items and add to list of available items
 	}
 
 

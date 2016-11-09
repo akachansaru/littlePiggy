@@ -31,6 +31,7 @@ public class Ads : MonoBehaviour {
 	}
 
 	void RewardPlayer() {
+		// UNDONE Add in chance of other rewards like new dyes or patterns
 		GlobalControl.Instance.savedData.SafeClothCount += 5;
 		Debug.Log ("Rewarded 5 cloth.");
 		GlobalControl.Instance.Save ();

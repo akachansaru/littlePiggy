@@ -2,6 +2,9 @@
 using System.Collections;
 using UnityEngine.UI;
 
+/// <summary>
+/// Used to buy an unlocked clothing item for cloth and brings the player to the item customization screen.
+/// </summary>
 public class BuyClothingItem : MonoBehaviour {
 
 	public GameObject buyItemPanel;
@@ -12,7 +15,10 @@ public class BuyClothingItem : MonoBehaviour {
 	private WearableItemInfo wearableItemInfo;
 	private int price;
 
-	// Opens the panel with information about specific item
+	/// <summary>
+	/// Opens the panel with information about specific item.
+	/// </summary>
+	/// <param name="itemInfo">Item info.</param>
 	public void OpenBuyItemPanel(WearableItemInfo itemInfo) {
 //		oneTimeItem = itemInfo.MakeItem();
 		wearableItemInfo = itemInfo;
