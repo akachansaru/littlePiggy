@@ -115,32 +115,24 @@ public class Pig : MonoBehaviour {
 		}
 	}
 
-	public void MoveWithInput(string parameterName, bool active) {
-		piggyAnimator.SetBool(parameterName, active);
-	}
-
 	public void MoveForward() {
-		if (!piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.backward)) {
+//		if (!piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.backward)) {
 			piggyAnimator.SetBool (ConstantValues.piggyAnimatorParameterNames.forward, true);
-		}
+//		}
 	}
 
 	public void MoveBackward() {
-		if (!piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.forward)) {
+//		if (!piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.forward)) {
 			piggyAnimator.SetBool(ConstantValues.piggyAnimatorParameterNames.backward, true);
-		}
+//		}
 	}
 
 	public void StopForward() {
-		if (!piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.backward)) {
-			piggyAnimator.SetBool (ConstantValues.piggyAnimatorParameterNames.forward, false);
-		}
+		piggyAnimator.SetBool (ConstantValues.piggyAnimatorParameterNames.forward, false);
 	}
 
 	public void StopBackward() {
-		if (!piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.forward)) {
-			piggyAnimator.SetBool (ConstantValues.piggyAnimatorParameterNames.backward, false);
-		}
+		piggyAnimator.SetBool (ConstantValues.piggyAnimatorParameterNames.backward, false);
 	}
 
 	public void Jump() {
@@ -184,20 +176,16 @@ public class Pig : MonoBehaviour {
 
 		#if UNITY_EDITOR // Same thing PigControlButtons.cs does
 		if (Input.GetKeyDown(KeyCode.D)) {
-//			Pig.player.GetComponent<Pig>().MoveForward ();
-			Pig.player.GetComponent<Pig>().MoveWithInput(ConstantValues.piggyAnimatorParameterNames.forward, true);
+			Pig.player.GetComponent<Pig>().MoveForward ();
 		} 
 		if (Input.GetKeyDown(KeyCode.A)) {
-//			Pig.player.GetComponent<Pig>().MoveBackward ();
-			Pig.player.GetComponent<Pig>().MoveWithInput(ConstantValues.piggyAnimatorParameterNames.backward, true);
+			Pig.player.GetComponent<Pig>().MoveBackward ();
 		} 
 		if (Input.GetKeyUp(KeyCode.D)) {
-//			Pig.player.GetComponent<Pig>().StopForward ();
-			Pig.player.GetComponent<Pig>().MoveWithInput(ConstantValues.piggyAnimatorParameterNames.forward, false);
+			Pig.player.GetComponent<Pig>().StopForward ();
 		}
 		if (Input.GetKeyUp(KeyCode.A)) {
-//			Pig.player.GetComponent<Pig>().StopBackward ();
-			Pig.player.GetComponent<Pig>().MoveWithInput(ConstantValues.piggyAnimatorParameterNames.backward, false);
+			Pig.player.GetComponent<Pig>().StopBackward ();
 		}
 		if (!Jumping && Input.GetKeyUp(KeyCode.K)) {
 			Pig.player.GetComponent<Pig>().Kick ();
@@ -209,19 +197,13 @@ public class Pig : MonoBehaviour {
 	}
 		
 	void FixedUpdate() {
-		// Physics end of piggy state machine
 		if (jump) {
-			// Start jump
-//			Debug.Log("Start jump " + "mass = " + rb.mass + " time = " + Time.fixedDeltaTime + " jump = " + LevelManager.piggyJump);
 			startingPosition = transform.position;
-//			startingTime = Time.fixedTime;
-//			Debug.Log ("Starting velocity = " + rb.velocity);
 			rb.AddForce (Vector3.up * LevelManager.piggyJump, ForceMode2D.Impulse);
 			StartJumpAnimation ();
 			jumpTime = Time.fixedTime;
 			jump = false;
 		}
-
 		MovePiggy ();
 		lastVelocity = rb.velocity;
 	}
@@ -230,24 +212,29 @@ public class Pig : MonoBehaviour {
 	/// Moves the piggy on ground or in air based on input if not over max horizontal speed.
 	/// </summary>
 	void MovePiggy() {
+		// FIXME Piggy spazzes when forward and backward are pressed at the same time (queue it up?)
+
 		if ((rb.velocity.x <= LevelManager.piggySpeed) && piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.forward)) {
-			if (standingOn) {
-				// FIXME Piggy spazzes when forward and backward are pressed at the same time (queue it up?)
-				// Move forward on the ground
-				rb.AddForce (Vector3.right * LevelManager.piggySpeed, ForceMode2D.Force);
-			} else {
-				// Move forward while in the air
-				rb.AddForce (Vector3.right * LevelManager.piggySpeed * jumpMovementScale, ForceMode2D.Force);
-			}
-		}
+//			if (!piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.backward)) {
+				if (standingOn) {
+					// Move forward on the ground
+					rb.AddForce (Vector3.right * LevelManager.piggySpeed, ForceMode2D.Force);
+				} else {
+					// Move forward in the air
+					rb.AddForce (Vector3.right * LevelManager.piggySpeed * jumpMovementScale, ForceMode2D.Force);
+				}
+//			}
+		} 
 		if ((-rb.velocity.x <= LevelManager.piggySpeed) && piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.backward)) {
-			if (standingOn) {
-				// Move backward on the ground
-				rb.AddForce (Vector3.left * LevelManager.piggySpeed, ForceMode2D.Force);
-			} else {
-				// Move backward while in the air
-				rb.AddForce (Vector3.left * LevelManager.piggySpeed * jumpMovementScale, ForceMode2D.Force);
-			}
+//			if (!piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.forward)) {
+				if (standingOn) {
+					// Move backward on the ground
+					rb.AddForce (Vector3.left * LevelManager.piggySpeed, ForceMode2D.Force);
+				} else {
+					// Move backward in the air
+					rb.AddForce (Vector3.left * LevelManager.piggySpeed * jumpMovementScale, ForceMode2D.Force);
+				}
+//			}
 		}
 	}
 
