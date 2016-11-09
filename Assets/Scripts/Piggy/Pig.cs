@@ -306,7 +306,7 @@ public class Pig : MonoBehaviour {
 		piggyAnimator.SetBool (ConstantValues.piggyAnimatorParameterNames.jump, true);
 		ChangeButtonStatusIndividual (kickButton, false);
 		ChangeButtonStatusIndividual (jumpButton, false);
-		standingOn = null;
+		standingOn = null; // TODO I think this causes a problem sometimes when checking if piggy is leaving what he was standing on
 		Debug.Log ("Start jump animation");
 	}
 
@@ -321,12 +321,13 @@ public class Pig : MonoBehaviour {
 			if (!piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.jump)) {
 				StartJumpAnimation ();
 			}
-
-			// Remove piggy from moving platform after jumping. Move normally
-			if (collisionTag.Contains(ConstantValues.tags.moving)) {
-				Debug.Log("Off moving platform.");
-				player.transform.parent = null;
-			}
 	 	}
+
+		// TODO This should be under the if(leaving standingOn) statement above, but standing on was null too soon
+		// Remove piggy from moving platform after jumping. Move normally
+		if (collisionTag.Contains(ConstantValues.tags.moving)) {
+			Debug.Log("Off moving platform.");
+			player.transform.parent = null;
+		}
 	 }
 }
