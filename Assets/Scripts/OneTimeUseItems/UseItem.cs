@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 // TODO This is bassically the same as BuyItem.cs so could merge them together
-public class UseItem : MonoBehaviour {
+public class UseItem : MonoBehaviour, IDisplayItemInfo {
 
 	public GameObject useItemPanel;
 	public Image itemImage;
@@ -20,8 +20,10 @@ public class UseItem : MonoBehaviour {
 	private bool usingSpeedItem = false;
 	// TODO Add in other stats
 
-	// Opens the panel for the specific item tapped on
-	public void OpenUseItemPanel() {
+	/// <summary>
+	/// Opens the panel for the specific item tapped on.
+	/// </summary>
+	public void DisplayItemInfo() {
 		selectedItem = EventSystem.current.currentSelectedGameObject;
 		OneTimeItemInfo itemInfo = selectedItem.GetComponent<OneTimeItemInfo> ();
 		oneTimeItem = itemInfo.MakeItem();
@@ -31,10 +33,13 @@ public class UseItem : MonoBehaviour {
 		useItemPanel.SetActive (true);
 	}
 
-	public void Use() {
+	/// <summary>
+	/// Applies the stats and starts the timer once the panel is closed.
+	/// </summary>
+	public void AcceptItem() {
 		Debug.Log ("oneTimeItem: " + oneTimeItem.itemStat);
 		if (((oneTimeItem.itemStat == "Jump") && !usingJumpItem) ||
-		    ((oneTimeItem.itemStat == "Speed") && !usingSpeedItem)) {
+			((oneTimeItem.itemStat == "Speed") && !usingSpeedItem)) {
 			if (oneTimeItem.itemStat == "Jump") {
 				usingJumpItem = true;
 			}
@@ -46,11 +51,15 @@ public class UseItem : MonoBehaviour {
 			ApplyStats (selectedItem.GetComponent<OneTimeItemInfo> ());
 			// Won't start the countdown until the game is unpaused because using WaitForSeconds
 			StartCoroutine (StartTimer (selectedItem.GetComponent<OneTimeItemInfo> ()));
-			ClosePanel ();
 		} else {
 			Debug.Log ("Already using that kind of item.");
 			// TODO Add in a message that you can't use two of the same kind of item
 		}
+	}
+
+	public void CloseItemInfoPanel() {
+		useItemPanel.SetActive (false);
+		oneTimeItem = null;
 	}
 
 	string AmountOwned() {
@@ -100,11 +109,6 @@ public class UseItem : MonoBehaviour {
 		}
 		RemoveItemEffects(itemInfo);
 		Debug.Log ("Timer end");
-	}
-
-	public void ClosePanel() {
-		useItemPanel.SetActive (false);
-		oneTimeItem = null;
 	}
 
 	void ApplyStats(OneTimeItemInfo info) {

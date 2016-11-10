@@ -19,7 +19,7 @@ public class PopulateUnlockedClothingPanels : MonoBehaviour {
 			hatUI.GetComponent<RectTransform> ().localScale = Vector3.one;
 			hatUI.name = headItem.headItemStyle + "UI";
 			hatUI.GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/WearableItems/" + headItem.headItemStyle);
-			hatUI.GetComponent<Button>().onClick.AddListener(() => GetComponent<BuyClothingItem>().OpenBuyItemPanel(hatUI.GetComponent<WearableItemInfo>()));
+			hatUI.GetComponent<Button>().onClick.AddListener(() => GetComponent<BuyClothingItem>().DisplayItemInfo());
 			hatUI.GetComponent<WearableItemInfo> ().itemName = headItem.headItemStyle;
 			hatUI.GetComponent<WearableItemInfo> ().stat = "Jump";
 			hatUI.GetComponent<WearableItemInfo> ().statIncrease = headItem.statBoost;

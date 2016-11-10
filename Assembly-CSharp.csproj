@@ -71,6 +71,7 @@
      <Compile Include="Assets\Scripts\InLevel\Path.cs" />
      <Compile Include="Assets\Scripts\InLevel\PickUpNewClothes.cs" />
      <Compile Include="Assets\Scripts\InLevel\PlatformTrigger.cs" />
+     <Compile Include="Assets\Scripts\Interfaces\IDisplayItemInfo.cs" />
      <Compile Include="Assets\Scripts\LevelSelection\ButtonActiveIfUnlocked.cs" />
      <Compile Include="Assets\Scripts\LevelSelection\LevelEntries.cs" />
      <Compile Include="Assets\Scripts\LevelSelection\LevelSetup.cs" />

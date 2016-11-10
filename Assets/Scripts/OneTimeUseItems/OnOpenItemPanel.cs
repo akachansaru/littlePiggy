@@ -25,6 +25,6 @@ public class OnOpenItemPanel : MonoBehaviour {
 		itemButton.transform.localScale = Vector3.one;
 		item.AddInfo (itemButton);
 		itemButton.transform.GetComponentInChildren<Text> ().text = itemButton.GetComponent<OneTimeItemInfo> ().itemName;
-		itemButton.GetComponent<Button>().onClick.AddListener(() => itemManager.OpenUseItemPanel());
+		itemButton.GetComponent<Button>().onClick.AddListener(() => itemManager.DisplayItemInfo());
 	}
 }

@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// Used to purchase a clothing item that hasn't been unlocked from the IAP screen.
 /// </summary>
-public class PurchaseNewClothingItem : MonoBehaviour {
+public class PurchaseNewClothingItem : MonoBehaviour, IDisplayItemInfo {
 
 	public GameObject buyItemPanel;
 	public Image itemImage;
@@ -15,27 +16,48 @@ public class PurchaseNewClothingItem : MonoBehaviour {
 
 	private WearableItemInfo wearableItemInfo;
 	private string price;
+	private GameObject selectedItem;
+
+
+//	public void OpenBuyItemPanel(GameObject item) {
+		//		oneTimeItem = itemInfo.MakeItem();
+//		wearableItemInfo = item.GetComponent<WearableItemInfo>();
+//		price = item.GetComponentInChildren<Text>().text;
+//		itemImage = wearableItemInfo.image;
+//		statBoostText.text = wearableItemInfo.stat + " +" + wearableItemInfo.statIncrease;
+//		priceText.text = "Unlock this item for " + price;
+//		buyItemPanel.SetActive(true);
+//	}
 
 	/// <summary>
-	/// Opens the panel with information about specific item.
+	/// Opens the panel with information about the specific item.
 	/// </summary>
 	/// <param name="itemInfo">Item info.</param>
-	public void OpenBuyItemPanel(GameObject item) {
-		//		oneTimeItem = itemInfo.MakeItem();
-		wearableItemInfo = item.GetComponent<WearableItemInfo>();
-		price = item.GetComponentInChildren<Text>().text;
+	public void DisplayItemInfo() {
+		selectedItem = EventSystem.current.currentSelectedGameObject;
+		wearableItemInfo = selectedItem.GetComponent<WearableItemInfo>();
+		price = selectedItem.GetComponentInChildren<Text>().text;
 		itemImage = wearableItemInfo.image;
 		statBoostText.text = wearableItemInfo.stat + " +" + wearableItemInfo.statIncrease;
 		priceText.text = "Unlock this item for " + price;
 		buyItemPanel.SetActive(true);
 	}
 
-	public void Buy() {
+	public void AcceptItem() {
 		purchaser.BuyNonConsumable (wearableItemInfo.itemName);
 	}
 
-	public void ClosePanel() {
+	public void CloseItemInfoPanel() {
 		priceText.text = "";
 		buyItemPanel.SetActive (false);
 	}
+
+//	public void Buy() {
+////		purchaser.BuyNonConsumable (wearableItemInfo.itemName);
+//	}
+
+//	public void ClosePanel() {
+////		priceText.text = "";
+////		buyItemPanel.SetActive (false);
+//	}
 }

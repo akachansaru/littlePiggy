@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class BuyItem : MonoBehaviour {
+public class BuyItem : MonoBehaviour, IDisplayItemInfo {
 
 	public GameObject buyItemPanel;
 	public Image itemImage;
@@ -12,12 +13,14 @@ public class BuyItem : MonoBehaviour {
 
 	private OneTimeItem oneTimeItem;
 	private int price;
+	private GameObject selectedItem;
 
 	/// <summary>
 	///  Opens the panel with information about specific item, for example, coffee.
 	/// </summary>
-	/// <param name="itemInfo">Item info.</param>
-	public void OpenBuyItemPanel(OneTimeItemInfo itemInfo) {
+	public void DisplayItemInfo() {
+		selectedItem = EventSystem.current.currentSelectedGameObject;
+		OneTimeItemInfo itemInfo = selectedItem.GetComponent<OneTimeItemInfo> ();
 		oneTimeItem = itemInfo.MakeItem();
 		price = itemInfo.price;
 		itemImage = itemInfo.image;
@@ -27,7 +30,7 @@ public class BuyItem : MonoBehaviour {
 		buyItemPanel.SetActive(true);
 	}
 
-	public void AddToInventory() {
+	public void AcceptItem() {
 		if (price <= GlobalControl.Instance.savedData.SafeDonutCount) {
 			if (GlobalControl.Instance.savedData.oneTimeItems.Exists (i => i.Equals (oneTimeItem))) {
 				GlobalControl.Instance.savedData.oneTimeItems.Find(i => i.Equals (oneTimeItem)).amountOwned+=1;
@@ -38,14 +41,13 @@ public class BuyItem : MonoBehaviour {
 			}
 			GlobalControl.Instance.savedData.SafeDonutCount -= price;
 			GlobalControl.Instance.Save();
-			ClosePanel();
 		} else {
 			Debug.Log ("Not enough donuts.");
 			// UNDONE Put in message about not having enough donuts to buy the item
 		}
 	}
 
-	public void ClosePanel() {
+	public void CloseItemInfoPanel() {
 		priceText.text = "";
 		buyItemPanel.SetActive (false);
 	}
