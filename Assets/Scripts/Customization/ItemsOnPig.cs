@@ -62,7 +62,6 @@ public class ItemsOnPig : MonoBehaviour {
 
 	// The hat is a child of pig
 	void AddNewHat(GameObject wearableItem, GameObject wearableItemUI) {
-		// UNDONE Make items that can easily be placed on the pig in a uniform way so they all look like he's wearing them
 		wearableItem.transform.position = new Vector2 (-4.8f, 2.7f);
 		wearableItem.transform.parent = pig.transform;
 		wearingHeadItem = true;

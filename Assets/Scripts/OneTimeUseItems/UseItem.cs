@@ -3,7 +3,6 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-// TODO This is bassically the same as BuyItem.cs so could merge them together
 public class UseItem : MonoBehaviour, IDisplayItemInfo {
 
 	public GameObject useItemPanel;
@@ -26,9 +25,9 @@ public class UseItem : MonoBehaviour, IDisplayItemInfo {
 	public void DisplayItemInfo() {
 		selectedItem = EventSystem.current.currentSelectedGameObject;
 		OneTimeItemInfo itemInfo = selectedItem.GetComponent<OneTimeItemInfo> ();
-		oneTimeItem = itemInfo.MakeItem();
-		itemImage = itemInfo.image;
-		statBoostText.text = itemInfo.stat + " +" + itemInfo.statIncrease + " for " + itemInfo.statDuration + " seconds";
+		oneTimeItem = itemInfo.MakeItem() as OneTimeItem;
+		itemImage = itemInfo.itemImage;
+		statBoostText.text = itemInfo.itemStat + " +" + itemInfo.statIncrease + " for " + itemInfo.statDuration + " seconds";
 		numberOwnedText.text = "Currently have " + AmountOwned();
 		useItemPanel.SetActive (true);
 	}
@@ -38,6 +37,7 @@ public class UseItem : MonoBehaviour, IDisplayItemInfo {
 	/// </summary>
 	public void AcceptItem() {
 		Debug.Log ("oneTimeItem: " + oneTimeItem.itemStat);
+		// FIXME I think the itemStat is probably not set correctly somewhere
 		if (((oneTimeItem.itemStat == "Jump") && !usingJumpItem) ||
 			((oneTimeItem.itemStat == "Speed") && !usingSpeedItem)) {
 			if (oneTimeItem.itemStat == "Jump") {
@@ -94,17 +94,17 @@ public class UseItem : MonoBehaviour, IDisplayItemInfo {
 
 	IEnumerator StartTimer(OneTimeItemInfo itemInfo) {
 		Debug.Log ("Timer start");
-		if (itemInfo.stat == "Jump") {
+		if (itemInfo.itemStat == "Jump") {
 			jumpTimer.StartTimer (itemInfo.statDuration);
-		} else if (itemInfo.stat == "Jump") {
+		} else if (itemInfo.itemStat == "Jump") {
 			speedTimer.StartTimer (itemInfo.statDuration);
 		}
 		yield return new WaitForSeconds ((float)itemInfo.statDuration);
 //		Debug.Log ("oneTimeItem: " + oneTimeItem.itemStat);
-		if (itemInfo.stat == "Jump") {
+		if (itemInfo.itemStat == "Jump") {
 			usingJumpItem = false;
 		}
-		if (itemInfo.stat == "Jump") {
+		if (itemInfo.itemStat == "Jump") {
 			usingSpeedItem = false;
 		}
 		RemoveItemEffects(itemInfo);
@@ -112,10 +112,10 @@ public class UseItem : MonoBehaviour, IDisplayItemInfo {
 	}
 
 	void ApplyStats(OneTimeItemInfo info) {
-		if (info.stat == "Jump") {
+		if (info.itemStat == "Jump") {
 			LevelManager.levelManager.jumpModifier = info.statIncrease;
 			Debug.Log ("Aplied stats. Jump now " + LevelManager.piggyJump);
-		} else if (info.stat == "Speed") {
+		} else if (info.itemStat == "Speed") {
 			LevelManager.levelManager.speedModifier = info.statIncrease;
 			Debug.Log ("Aplied stats. Speed now " + LevelManager.piggySpeed);
 		}
@@ -123,11 +123,11 @@ public class UseItem : MonoBehaviour, IDisplayItemInfo {
 	}
 
 	void RemoveItemEffects(OneTimeItemInfo info) {
-		if (info.stat == "Jump") {
+		if (info.itemStat == "Jump") {
 			LevelManager.levelManager.jumpModifier = 0;
 			// TODO Make levelManager update stats whenever something is changed
 			Debug.Log ("Removed stats. Jump now " + LevelManager.piggyJump);
-		} else if (info.stat == "Speed") {
+		} else if (info.itemStat == "Speed") {
 			LevelManager.levelManager.speedModifier = 1;
 			Debug.Log ("Removed stats. Speed now " + LevelManager.piggySpeed);
 		} else {

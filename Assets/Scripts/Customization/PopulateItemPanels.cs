@@ -15,7 +15,7 @@ public class PopulateItemPanels : MonoBehaviour {
 	void Start () {
 		List<HeadItem> headItems = GlobalControl.Instance.savedData.headItems;
 		foreach (HeadItem headItem in headItems) {
-			Debug.Log ("Head item " + headItem.headItemStyle);
+			Debug.Log ("Head item " + headItem.itemName);
 			GameObject hatUI = Instantiate(HeadItemMethods.LoadUIPrefab(), hatContent.transform) as GameObject;
 			HeadItemMethods.ApplyUIAttributes (headItem, hatUI, GetComponent<Canvas>());
 			// TODO See if I can use LoadItemsOnPig instead for consistancy

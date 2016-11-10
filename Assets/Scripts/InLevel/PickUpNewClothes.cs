@@ -36,13 +36,13 @@ public class PickUpNewClothes : MonoBehaviour {
 	/// <param name="newHeadItem">New head item.</param>
 	void LevelUpAllItems(HeadItem newHeadItem) {
 		foreach (HeadItem item in GlobalControl.Instance.savedData.headItems) {
-			if (item.headItemStyle == newHeadItem.headItemStyle) {
-				if (item.headItemStyle == GlobalControl.Instance.savedData.headItems.Find (h => h.currentlyWearing).headItemStyle) {
-					LevelManager.levelManager.jumpModifier -= GlobalControl.Instance.savedData.headItems.Find (h => h.currentlyWearing).statBoost;
+			if (item.itemName == newHeadItem.itemName) {
+				if (item.itemName == GlobalControl.Instance.savedData.headItems.Find (h => h.currentlyWearing).itemName) {
+					LevelManager.levelManager.jumpModifier -= GlobalControl.Instance.savedData.headItems.Find (h => h.currentlyWearing).itemStatIncrease;
 				}
 				item.LevelUp ();
-				if (item.headItemStyle == GlobalControl.Instance.savedData.headItems.Find (h => h.currentlyWearing).headItemStyle) {
-					LevelManager.levelManager.jumpModifier += GlobalControl.Instance.savedData.headItems.Find (h => h.currentlyWearing).statBoost;
+				if (item.itemName == GlobalControl.Instance.savedData.headItems.Find (h => h.currentlyWearing).itemName) {
+					LevelManager.levelManager.jumpModifier += GlobalControl.Instance.savedData.headItems.Find (h => h.currentlyWearing).itemStatIncrease;
 				}
 			}
 		}

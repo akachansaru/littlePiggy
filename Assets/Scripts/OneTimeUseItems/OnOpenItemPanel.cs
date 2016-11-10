@@ -18,12 +18,15 @@ public class OnOpenItemPanel : MonoBehaviour {
 		}
 	}
 
-	// Each itemButton is a LayoutElement so it will be put into the correct place on the ItemPanel automatically
+	/// <summary>
+	/// Each itemButton is a LayoutElement so it will be put into the correct place on the ItemPanel automatically.
+	/// </summary>
+	/// <param name="item">Item.</param>
 	void DisplayItem(OneTimeItem item) {
 		Debug.Log (item.ToString());
-		GameObject itemButton = Instantiate (Resources.Load ("Prefabs/InLevelCanvas/OneTimeItems/UsingItems/OneTimeItemButton"), itemPanel.transform) as GameObject;
+		GameObject itemButton = Instantiate (Resources.Load ("Prefabs/OneTimeItems/UsingItems/OneTimeItemButton"), itemPanel.transform) as GameObject;
 		itemButton.transform.localScale = Vector3.one;
-		item.AddInfo (itemButton);
+		item.AddInfo (itemButton.GetComponent<OneTimeItemInfo> ());
 		itemButton.transform.GetComponentInChildren<Text> ().text = itemButton.GetComponent<OneTimeItemInfo> ().itemName;
 		itemButton.GetComponent<Button>().onClick.AddListener(() => itemManager.DisplayItemInfo());
 	}

@@ -14,14 +14,14 @@ public class ModifierOnItem : MonoBehaviour {
 		modifierOnItem = this;
 		inItemArea = false;
 		currentlyModifying = GlobalControl.Instance.itemToModify;
-		name = currentlyModifying.headItemStyle;
+		name = currentlyModifying.itemName;
 		GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite>("Sprites/WearableItems/" + name);
 	}
 
 	// When the button is pressed indicating that the player is done creating their item
 	public void CreateItem() {
 		HeadItem newItem = new HeadItem (name, new SerializableColor (GetComponent<SpriteRenderer> ().color), new SpriteRenderer (), 
-			currentlyModifying.statBoost, 0, false);
+			currentlyModifying.itemStatIncrease, 0, false);
 		// Create the new item if the player doesn't already own the same one
 		if (!GlobalControl.Instance.savedData.headItems.Exists (h => h.Equals (newItem))) {
 			GlobalControl.Instance.savedData.headItems.Add (newItem);

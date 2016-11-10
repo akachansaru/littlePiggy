@@ -21,12 +21,12 @@ public class BuyItem : MonoBehaviour, IDisplayItemInfo {
 	public void DisplayItemInfo() {
 		selectedItem = EventSystem.current.currentSelectedGameObject;
 		OneTimeItemInfo itemInfo = selectedItem.GetComponent<OneTimeItemInfo> ();
-		oneTimeItem = itemInfo.MakeItem();
-		price = itemInfo.price;
-		itemImage = itemInfo.image;
-		statBoostText.text = itemInfo.stat + " +" + itemInfo.statIncrease + " for " + itemInfo.statDuration + " seconds";
+		oneTimeItem = itemInfo.MakeItem() as OneTimeItem;
+		price = itemInfo.donutPrice;
+		itemImage = itemInfo.itemImage;
+		statBoostText.text = itemInfo.itemStat + " +" + itemInfo.statIncrease + " for " + itemInfo.statDuration + " seconds";
 		numberOwnedText.text = "Currently have " + AmountOwned();
-		priceText.text = "Buy for " + priceText.text + itemInfo.price.ToString() + " donuts";
+		priceText.text = "Buy for " + priceText.text + itemInfo.donutPrice.ToString() + " donuts";
 		buyItemPanel.SetActive(true);
 	}
 

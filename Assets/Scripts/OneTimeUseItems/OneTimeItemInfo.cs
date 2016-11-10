@@ -2,16 +2,12 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class OneTimeItemInfo : MonoBehaviour {
+public class OneTimeItemInfo : ItemInfo {
 
-	public string itemName;
-	public Image image;
-	public string stat;
-	public int statIncrease;
 	public int statDuration;
-	public int price;
+	public int donutPrice;
 
-	public OneTimeItem MakeItem() {
-		return new OneTimeItem (itemName, stat, statIncrease, statDuration);
+	public override Item MakeItem() {
+		return new OneTimeItem (base.itemName, base.itemStat, base.statIncrease, statDuration);
 	}
 }

@@ -18,17 +18,6 @@ public class PurchaseNewClothingItem : MonoBehaviour, IDisplayItemInfo {
 	private string price;
 	private GameObject selectedItem;
 
-
-//	public void OpenBuyItemPanel(GameObject item) {
-		//		oneTimeItem = itemInfo.MakeItem();
-//		wearableItemInfo = item.GetComponent<WearableItemInfo>();
-//		price = item.GetComponentInChildren<Text>().text;
-//		itemImage = wearableItemInfo.image;
-//		statBoostText.text = wearableItemInfo.stat + " +" + wearableItemInfo.statIncrease;
-//		priceText.text = "Unlock this item for " + price;
-//		buyItemPanel.SetActive(true);
-//	}
-
 	/// <summary>
 	/// Opens the panel with information about the specific item.
 	/// </summary>
@@ -37,8 +26,8 @@ public class PurchaseNewClothingItem : MonoBehaviour, IDisplayItemInfo {
 		selectedItem = EventSystem.current.currentSelectedGameObject;
 		wearableItemInfo = selectedItem.GetComponent<WearableItemInfo>();
 		price = selectedItem.GetComponentInChildren<Text>().text;
-		itemImage = wearableItemInfo.image;
-		statBoostText.text = wearableItemInfo.stat + " +" + wearableItemInfo.statIncrease;
+		itemImage = wearableItemInfo.itemImage;
+		statBoostText.text = wearableItemInfo.itemStat + " +" + wearableItemInfo.statIncrease;
 		priceText.text = "Unlock this item for " + price;
 		buyItemPanel.SetActive(true);
 	}
@@ -51,13 +40,4 @@ public class PurchaseNewClothingItem : MonoBehaviour, IDisplayItemInfo {
 		priceText.text = "";
 		buyItemPanel.SetActive (false);
 	}
-
-//	public void Buy() {
-////		purchaser.BuyNonConsumable (wearableItemInfo.itemName);
-//	}
-
-//	public void ClosePanel() {
-////		priceText.text = "";
-////		buyItemPanel.SetActive (false);
-//	}
 }
