@@ -79,7 +79,9 @@ public class GlobalControl : MonoBehaviour {
 		}
 	}
 
-	// Initialize save values when starting a new game
+	/// <summary>
+	///  Initialize save values when starting a new game.
+	/// </summary>
 	private void NewGame() {
 		savedData.SafeDonutCount = 10000;
 		savedData.SafeClothCount = 1000;

@@ -52,7 +52,6 @@ public class Purchaser : MonoBehaviour, IStoreListener {
 		UnityPurchasing.Initialize(this, builder);
 	}
 
-
 	private bool IsInitialized() {
 		// Only say we are initialized if both the Purchasing references are set.
 		return m_StoreController != null && m_StoreExtensionProvider != null;
@@ -78,13 +77,11 @@ public class Purchaser : MonoBehaviour, IStoreListener {
 		}
 	}
 
-
 	public void BuyNonConsumable(string id) {
 		// Buy the non-consumable product using its general identifier. Expect a response either 
 		// through ProcessPurchase or OnPurchaseFailed asynchronously.
 		BuyProductID (id);
 	}
-
 
 	void BuyProductID(string productId)	{
 		// If Purchasing has been initialized ...
@@ -124,7 +121,6 @@ public class Purchaser : MonoBehaviour, IStoreListener {
 		// Store specific subsystem, for accessing device-specific store features.
 		m_StoreExtensionProvider = extensions;
 	}
-
 
 	public void OnInitializeFailed(InitializationFailureReason error) {
 		// Purchasing set-up has not succeeded. Check error for reason. Consider sharing this reason with the user.
@@ -166,7 +162,6 @@ public class Purchaser : MonoBehaviour, IStoreListener {
 		GlobalControl.Instance.Save();
 		return PurchaseProcessingResult.Complete;
 	}
-
 
 	public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason) {
 		// A product purchase attempt did not succeed. Check failureReason for more detail. Consider sharing 
