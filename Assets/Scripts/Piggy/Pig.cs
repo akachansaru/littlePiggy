@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 
 [RequireComponent (typeof (LoadItemsOnPig))]
+[RequireComponent (typeof (PiggyMovement))]
 public class Pig : MonoBehaviour {
 
 	//VARIABLLE DECLARATIONS
@@ -204,7 +205,8 @@ public class Pig : MonoBehaviour {
 			jumpTime = Time.fixedTime;
 			jump = false;
 		}
-		MovePiggy ();
+//		GetComponent<PiggyMovement>().MovePiggy (rb, piggyAnimator, standingOn, jumpMovementScale);
+		MovePiggy();
 		lastVelocity = rb.velocity;
 	}
 		
@@ -213,7 +215,6 @@ public class Pig : MonoBehaviour {
 	/// </summary>
 	void MovePiggy() {
 		// FIXME Piggy spazzes when forward and backward are pressed at the same time (queue it up?)
-
 		if ((rb.velocity.x <= LevelManager.piggySpeed) && piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.forward)) {
 //			if (!piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.backward)) {
 				if (standingOn) {
