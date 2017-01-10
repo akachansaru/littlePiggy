@@ -5,18 +5,18 @@ public class PickUpNewClothes : MonoBehaviour {
 
 	public bool alreadyCollected;
 
-//	void Start() {
-//		if (alreadyCollected) {
-//			Destroy (gameObject);
-//			// TODO Don't show the item in the level if it's been unlocked
-//		}
-//	}
+    //	void Start() {
+    //		if (alreadyCollected) {
+    //			Destroy (gameObject);
+    //			// TODO Don't show the item in the level if it's been unlocked
+    //		}
+    //	}
 
-	/// <summary>
-	/// Allows the piggy to collect the item.
-	/// </summary>
-	/// <param name="other">Other.</param>
-	void OnTriggerEnter2D(Collider2D other) {	
+    /// <summary>
+    /// Allows the piggy to collect the item.
+    /// </summary>
+    /// <param name="other">Other.</param>
+    void OnTriggerEnter2D(Collider2D other) {	
 		if (other.gameObject.CompareTag(ConstantValues.tags.player)) {
 			HeadItem headItem = new HeadItem (GetComponent<WearableItemInfo> ().itemName, SerializableColor.white,
 				new SpriteRenderer (), GetComponent<WearableItemInfo> ().statIncrease, GetComponent<WearableItemInfo> ().clothPrice, false);

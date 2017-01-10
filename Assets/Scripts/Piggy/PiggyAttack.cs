@@ -6,7 +6,7 @@ public class PiggyAttack : MonoBehaviour {
 	private Pig pig;
 
 	void Start() {
-		pig = transform.parent.GetComponent<Pig> ();
+        pig = transform.parent.GetComponent<Pig> ();
 	}
 
 	void OnTriggerStay2D(Collider2D other) {

@@ -6,7 +6,7 @@ public class PlatformTrigger : MonoBehaviour {
 	public BoxCollider2D platform;
 	public bool above = false;
 
-	void OnTriggerEnter2D(Collider2D other) {
+    void OnTriggerEnter2D(Collider2D other) {
 		above = true;
 	}
 

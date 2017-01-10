@@ -8,7 +8,7 @@ public class ModifierOnItem : MonoBehaviour {
 	public static ModifierOnItem modifierOnItem;
 	public static bool inItemArea;
 
-	private HeadItem currentlyModifying;
+    private HeadItem currentlyModifying;
 
 	void Start() {
 		modifierOnItem = this;

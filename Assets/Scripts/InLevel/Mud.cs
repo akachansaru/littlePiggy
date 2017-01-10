@@ -8,8 +8,8 @@ public class Mud : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D other) {
 		if (other.gameObject.CompareTag(ConstantValues.tags.player)) {
 			other.gameObject.GetComponent<Pig> ().ModifySpeed (speedModifier);
-			other.gameObject.GetComponent<Pig> ().ModifyJump (LevelManager.levelManager.levelInstance.levelDonutCount / jumpModifier 
-				- LevelManager.levelManager.levelInstance.levelDonutCount);
+			other.gameObject.GetComponent<Pig> ().ModifyJump (LevelManager.levelManager.levelInstance.levelDonutCount / jumpModifier
+                - LevelManager.levelManager.levelInstance.levelDonutCount);
 		}
 		if (other.gameObject.CompareTag(ConstantValues.tags.enemy)) {
 			other.gameObject.GetComponent<Enemy.EnemyMovement> ().ModifySpeed (speedModifier);

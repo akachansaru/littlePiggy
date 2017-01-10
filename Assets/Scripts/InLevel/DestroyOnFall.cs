@@ -6,8 +6,8 @@ public class DestroyOnFall : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D other) {
 		if (other.gameObject.CompareTag(ConstantValues.tags.catcher)) {
-			// Object has fallen off
-			Destroy(gameObject);
+            // Object has fallen off
+            Destroy(gameObject);
 		}
 	}
 }

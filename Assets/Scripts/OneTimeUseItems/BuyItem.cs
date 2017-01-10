@@ -11,7 +11,7 @@ public class BuyItem : MonoBehaviour, IDisplayItemInfo {
 	public Text numberOwnedText;
 	public Text priceText;
 
-	private OneTimeItem oneTimeItem;
+    private OneTimeItem oneTimeItem;
 	private int price;
 	private GameObject selectedItem;
 

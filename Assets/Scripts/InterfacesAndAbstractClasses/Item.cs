@@ -8,4 +8,3 @@ public abstract class Item {
 
 	public abstract void AddInfo (ItemInfo itemInfo);
 }
-

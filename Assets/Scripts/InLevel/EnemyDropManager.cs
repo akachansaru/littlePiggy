@@ -7,7 +7,7 @@ namespace Enemy {
 		private float deadDelayTime = 2f; // Time between losing all hitpoints and the body disapearing
 
 		public IEnumerator InstantiateDonut(GameObject donutPrefab, Vector2 position) {
-			yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(2f);
 			Instantiate(donutPrefab, position, Quaternion.identity);
 		}
 

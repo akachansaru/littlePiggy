@@ -12,7 +12,7 @@ public class Ads : MonoBehaviour {
 		}
 	}
 
-	void HandleAdResult(ShowResult result) {
+    void HandleAdResult(ShowResult result) {
 		switch (result) {
 		case ShowResult.Finished:
 			Debug.Log ("Ad finished.");

@@ -6,7 +6,7 @@ public class LowerRope : DoOnButtonPress {
 	public Transform lowestPoint;
 	public Transform highestPoint;
 
-	private float ropeBottom; // Position of rope bottom as it moves
+    private float ropeBottom; // Position of rope bottom as it moves
 	private bool active;
 
 	public void Start() {
