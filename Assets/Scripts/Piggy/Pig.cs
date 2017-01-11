@@ -200,11 +200,15 @@ public class Pig : MonoBehaviour {
 
     void FixedUpdate() {
         if (jump) {
-            startingPosition = transform.position;
-            rb.AddForce(Vector3.up * LevelManager.piggyJump, ForceMode2D.Impulse);
-            StartJumpAnimation();
-            jumpTime = Time.fixedTime;
-            jump = false;
+            if (SceneManager.GetActiveScene().name.Equals("LevelSelection")) {
+                
+            } else {
+                startingPosition = transform.position;
+                rb.AddForce(Vector3.up * LevelManager.piggyJump, ForceMode2D.Impulse);
+                StartJumpAnimation();
+                jumpTime = Time.fixedTime;
+                jump = false;
+            }
         }
         MovePiggy();
         lastVelocity = rb.velocity;
