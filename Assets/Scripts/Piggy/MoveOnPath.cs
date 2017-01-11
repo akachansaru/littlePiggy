@@ -3,28 +3,30 @@ using System.Collections;
 
 public class MoveOnPath : MonoBehaviour {
     public string controlPath;
+    public Transform character;
     public enum Direction { Forward, Reverse };
 
-    private float pathPosition = 0;
-    private RaycastHit hit;
-    private float speed = .2f;
+    //private float pathPosition = 0f;
+    private float pathPercent = 0f;
+    private RaycastHit2D hit;
+    private float speed = 0.2f;
     private float rayLength = 5;
     private Direction characterDirection;
-    private Vector3 floorPosition;
-    private float lookAheadAmount = .01f;
+    private Vector2 floorPosition;
+    private float lookAheadAmount = 0.01f;
     private float ySpeed = 0;
-    private float gravity = .5f;
-    private float jumpForce = .12f;
+    private float gravity = 0.5f;
+    private float jumpForce = 0.2f;
     private uint jumpState = 0; //0=grounded 1=jumping
 
     //void OnDrawGizmos() {
-        //iTween.DrawPath(controlPath, Color.blue);
+    //    iTween.DrawPath(iTweenPath.GetPath(controlPath), Color.blue);
     //}
 
 
     void Start() {
         //plop the character pieces in the "Ignore Raycast" layer so we don't have false raycast data:	
-        foreach (Transform child in transform) {
+        foreach (Transform child in character) {
             child.gameObject.layer = 2;
         }
     }
@@ -37,64 +39,69 @@ public class MoveOnPath : MonoBehaviour {
         MoveCamera();
     }
 
-
     void DetectKeys() {
         //forward path movement:
-        if (Input.GetKeyDown("right")) {
+        if (Input.GetKeyDown(KeyCode.D)) {
             characterDirection = Direction.Forward;
+            Debug.Log("Forward");
         }
-        if (Input.GetKey("right")) {
-            pathPosition += Time.deltaTime * speed;
+        if (Input.GetKey(KeyCode.D)) {
+            //pathPosition = (pathPosition + Time.deltaTime * speed);
+            pathPercent = Mathf.Clamp01(pathPercent + speed * Time.deltaTime);
+
         }
 
         //reverse path movement:
-        if (Input.GetKeyDown("left")) {
+        if (Input.GetKeyDown(KeyCode.A)) {
             characterDirection = Direction.Reverse;
+            Debug.Log("Backward");
         }
-        if (Input.GetKey("left")) {
+        if (Input.GetKey(KeyCode.A)) {
             //handle path loop around since we can't interpolate a path percentage that's negative(well duh):
-            float temp = pathPosition - (Time.deltaTime * speed);
-            if (temp < 0) {
-                pathPosition = 1;
-            } else {
-                pathPosition -= (Time.deltaTime * speed);
-            }
+            //pathPosition -= (Time.deltaTime * speed);
+            pathPercent = Mathf.Clamp01(pathPercent - speed * Time.deltaTime);
         }
 
         //jump:
         if (Input.GetKeyDown("space") && jumpState == 0) {
             ySpeed -= jumpForce;
             jumpState = 1;
+            Debug.Log("Jump");
         }
     }
 
 
     void FindFloorAndRotation() {
-        float pathPercent = pathPosition % 1;
-        Vector3 coordinateOnPath = iTween.PointOnPath(iTweenPath.GetPath(controlPath), pathPercent);
-        Vector3 lookTarget;
+        //float pathPercent = pathPosition % 1;
 
-        //calculate look data if we aren't going to be looking beyond the extents of the path:
-        if (pathPercent - lookAheadAmount >= 0 && pathPercent + lookAheadAmount <= 1) {
+        Vector2 coordinateOnPath = iTween.PointOnPath(iTweenPath.GetPath(controlPath), pathPercent);
 
-            //leading or trailing point so we can have something to look at:
-            if (characterDirection == Direction.Forward) {
-                lookTarget = iTween.PointOnPath(iTweenPath.GetPath(controlPath), pathPercent + lookAheadAmount);
-            } else {
-                lookTarget = iTween.PointOnPath(iTweenPath.GetPath(controlPath), pathPercent - lookAheadAmount);
-            }
+        //Vector3 lookTarget;
 
-            //look:
-            transform.LookAt(lookTarget);
+        ////calculate look data if we aren't going to be looking beyond the extents of the path:
+        //if (pathPercent - lookAheadAmount >= 0 && pathPercent + lookAheadAmount <= 1) {
+
+        //    //leading or trailing point so we can have something to look at:
+        //    if (characterDirection == Direction.Forward) {
+        //        lookTarget = iTween.PointOnPath(iTweenPath.GetPath(controlPath), pathPercent + lookAheadAmount);
+        //    } else {
+        //        lookTarget = iTween.PointOnPath(iTweenPath.GetPath(controlPath), pathPercent - lookAheadAmount);
+        //    }
+
+        //    //look:
+        //    transform.LookAt(lookTarget);
 
             //nullify all rotations but y since we just want to look where we are going:
-            float yRot = transform.eulerAngles.y;
-            transform.eulerAngles = new Vector3(0, yRot, 0);
-        }
+            //float zRot = transform.eulerAngles.z;
+            //transform.eulerAngles = new Vector3(0, 0, zRot);
+        //}
 
-        if (Physics.Raycast(coordinateOnPath, -Vector3.up, out hit, rayLength)) {
-            Debug.DrawRay(coordinateOnPath, -Vector3.up * hit.distance);
+        // Send a raycast down from the path to see where the floor is
+        if (Physics2D.Raycast(coordinateOnPath, Vector2.down, rayLength)) {
+            hit = Physics2D.Raycast(coordinateOnPath, Vector2.down, rayLength);
+            Debug.DrawRay(coordinateOnPath, Vector2.down * hit.distance);
             floorPosition = hit.point;
+            Debug.Log("hit " + hit.transform);
         }
     }
 
@@ -104,18 +111,19 @@ public class MoveOnPath : MonoBehaviour {
         ySpeed += gravity * Time.deltaTime;
 
         //apply gravity:
-        transform.position = new Vector3(floorPosition.x, transform.position.y - ySpeed, floorPosition.z);
+        character.position = new Vector2(floorPosition.x, character.position.y - ySpeed);
 
         //floor checking:
-        if (transform.position.y < floorPosition.y) {
+        if (character.position.y < floorPosition.y) {
             ySpeed = 0;
             jumpState = 0;
-            transform.position = new Vector3(floorPosition.x, floorPosition.y, floorPosition.z);
+            character.position = new Vector2(floorPosition.x, floorPosition.y);
+            Debug.Log("Floor check");
         }
     }
 
 
     void MoveCamera() {
-        iTween.MoveUpdate(Camera.main.gameObject, new Vector3(transform.position.x, 2.7f, transform.position.z - 5f), .9f);
+        iTween.MoveUpdate(Camera.main.gameObject, new Vector3(character.position.x, 2.7f, character.position.z - 5f), .9f);
     }
 }

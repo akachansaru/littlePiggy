@@ -29,7 +29,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
-     inkscape:cx="391.49467"
+     inkscape:cx="222.79919"
      inkscape:cy="611.59948"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -75,5 +75,14 @@
        inkscape:export-filename="D:\Code\Unity\littlePiggy\RawStuff\Logan's Artwork\MountainPath.png"
        inkscape:export-xdpi="552.83472"
        inkscape:export-ydpi="552.83472" />
+    <path
+       style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#676132;stroke-width:0.9375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -158.07006,319.07563 c 0,0 38.3858,27.27413 9.09137,35.35535 -29.29442,8.08122 -169.70563,14.14214 -163.64471,36.36549 6.06091,22.22336 64.64976,21.21321 134.35029,13.13199 69.70052,-8.08122 144.451812,21.21319 88.893432,41.41624 -27.255312,9.91103 -128.413852,19.09274 -208.068392,28.37996 -82.7167,9.64425 -142.24428,19.40227 -71.74387,30.2089 138.3909,21.21321 141.42137,21.2132 141.42137,21.2132 0,0 14.3773,0.79874 36.08836,2.15005 87.47994,5.44482 294.02388,19.8607 158.871072,27.14439 -72.580752,3.91154 -166.291612,14.55479 -249.595072,27.10258 -110.31421,16.61635 -202.37774,36.57257 -202.95328,48.65885"
+       id="path4142-2"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="csssssscsssc"
+       inkscape:export-filename="D:\Code\Unity\littlePiggy\RawStuff\Logan's Artwork\MountainPathThin.png"
+       inkscape:export-xdpi="552.42999"
+       inkscape:export-ydpi="552.42999" />
   </g>
 </svg>
