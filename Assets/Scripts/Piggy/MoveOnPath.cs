@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MoveOnPath : MonoBehaviour {
     public string controlPath;
-    public Transform character;
+    //public Transform character;
     public enum Direction { Forward, Reverse };
 
     //private float pathPosition = 0f;
@@ -16,7 +16,7 @@ public class MoveOnPath : MonoBehaviour {
     private float lookAheadAmount = 0.01f;
     private float ySpeed = 0;
     private float gravity = 0.5f;
-    private float jumpForce = 0.2f;
+    private float jumpForce = 0.19f;
     private uint jumpState = 0; //0=grounded 1=jumping
 
     //void OnDrawGizmos() {
@@ -26,7 +26,7 @@ public class MoveOnPath : MonoBehaviour {
 
     void Start() {
         //plop the character pieces in the "Ignore Raycast" layer so we don't have false raycast data:	
-        foreach (Transform child in character) {
+        foreach (Transform child in transform) {
             child.gameObject.layer = 2;
         }
     }
@@ -111,19 +111,18 @@ public class MoveOnPath : MonoBehaviour {
         ySpeed += gravity * Time.deltaTime;
 
         //apply gravity:
-        character.position = new Vector2(floorPosition.x, character.position.y - ySpeed);
+        transform.position = new Vector2(floorPosition.x, transform.position.y - ySpeed);
 
         //floor checking:
-        if (character.position.y < floorPosition.y) {
+        if (transform.position.y < floorPosition.y) {
             ySpeed = 0;
             jumpState = 0;
-            character.position = new Vector2(floorPosition.x, floorPosition.y);
-            Debug.Log("Floor check");
+            transform.position = new Vector2(floorPosition.x, floorPosition.y);
         }
     }
 
 
     void MoveCamera() {
-        iTween.MoveUpdate(Camera.main.gameObject, new Vector3(character.position.x, 2.7f, character.position.z - 5f), .9f);
+        iTween.MoveUpdate(Camera.main.gameObject, new Vector3(transform.position.x, 2.7f, transform.position.z - 5f), .9f);
     }
 }
