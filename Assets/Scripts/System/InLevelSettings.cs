@@ -62,6 +62,7 @@ public class InLevelSettings : Settings {
 		}
 		Time.timeScale = 0f;
 		player.GetComponent<PigControlInput>().ToggleActiveMovementButtons(false);
+        Debug.Log("Paused");
 	}
 
 	public void UnpauseGame() {

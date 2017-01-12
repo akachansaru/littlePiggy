@@ -30,27 +30,39 @@ public class MoveOnPath : MonoBehaviour {
         foreach (Transform child in transform) {
             child.gameObject.layer = 2;
         }
-        if (PathDictionary.paths.TryGetValue(currentPath, out controlPath)) {
-            currentPath.layer = 0; // Default layer. Will be detected by raycasts while all other paths are ignored
-        } else {
-            Debug.LogError("Could not find path " + currentPath.name);
-        }
+
+        // Put current path on the path layer so raycasts will detect it
+        //if (PathDictionary.paths.TryGetValue(currentPath, out controlPath)) {
+        //    currentPath.layer = PathDictionary.pathLayer; // Default layer. Will be detected by raycasts while all other paths are ignored
+        //} else {
+        //    Debug.LogError("Could not find path " + currentPath.name);
+        //}
     }
 
 
     void Update() {
-        DetectKeys();
+        DetectInput();
         FindFloorAndRotation();
         MoveCharacter();
         MoveCamera();
     }
 
-    void DetectKeys() {
+    void GoToNextLevel() {
+        // Deactivate user controls and switch to path around curve
+        GetComponentInChildren<PigControlInput>().ChangeButtonStatusAll(false);
+        controlPath = PathList.currentPath.Next.Value.pathName;
+        Debug.Log("controlPath: " + controlPath);
+    }
 
+    void DetectInput() {
         if (PigControlInput.piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.forward)) {
             characterDirection = Direction.Forward;
             pathPercent = Mathf.Clamp01(pathPercent + speed * Time.deltaTime);
             Debug.Log("Forward");
+            if (pathPercent == 1) {
+                Debug.Log("End of path");
+                GoToNextLevel();
+            }
         }
 
         if (PigControlInput.piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.backward)) {
@@ -67,34 +79,64 @@ public class MoveOnPath : MonoBehaviour {
             Debug.Log("Jump");
         }
 
-        //forward path movement:
+#region Keyboard input
+#if UNITY_EDITOR // Same thing PigControlButtons.cs does
         if (Input.GetKeyDown(KeyCode.D)) {
-            characterDirection = Direction.Forward;
-            Debug.Log("Forward");
+            GetComponentInChildren<PigControlInput>().MoveForward();
         }
-        if (Input.GetKey(KeyCode.D)) {
-            //pathPosition = (pathPosition + Time.deltaTime * speed);
-            pathPercent = Mathf.Clamp01(pathPercent + speed * Time.deltaTime);
-
-        }
-
-        //reverse path movement:
         if (Input.GetKeyDown(KeyCode.A)) {
-            characterDirection = Direction.Reverse;
-            Debug.Log("Backward");
+            GetComponentInChildren<PigControlInput>().MoveBackward();
         }
-        if (Input.GetKey(KeyCode.A)) {
-            //handle path loop around since we can't interpolate a path percentage that's negative(well duh):
-            //pathPosition -= (Time.deltaTime * speed);
-            pathPercent = Mathf.Clamp01(pathPercent - speed * Time.deltaTime);
+        if (Input.GetKeyUp(KeyCode.D)) {
+            GetComponentInChildren<PigControlInput>().StopForward();
         }
+        if (Input.GetKeyUp(KeyCode.A)) {
+            GetComponentInChildren<PigControlInput>().StopBackward();
+        }
+        if (!GetComponentInChildren<PigControlInput>().Jumping && Input.GetKeyUp(KeyCode.K)) {
+            GetComponentInChildren<PigControlInput>().Kick();
+        }
+        if (!GetComponentInChildren<PigControlInput>().Jumping && Input.GetKeyDown(KeyCode.L)) {
+            GetComponentInChildren<PigControlInput>().Jump();
+        }
+#endif
+#endregion
 
-        //jump:
-        if (Input.GetKeyDown("space")) {
-            ySpeed -= jumpForce;
-            //jumpState = 1;
-            Debug.Log("Jump");
-        }
+        //#region Keyboard input
+        ////forward path movement:
+        //if (Input.GetKeyDown(KeyCode.D)) {
+        //    characterDirection = Direction.Forward;
+        //    Debug.Log("Forward");
+        //}
+        //if (Input.GetKey(KeyCode.D)) {
+        //    pathPercent = Mathf.Clamp01(pathPercent + speed * Time.deltaTime);
+
+        //    //pathPosition += (Time.deltaTime * speed);
+        //    //float temp = pathPosition + (Time.deltaTime * speed);
+        //    //if (temp > 1) {
+        //    //    pathPosition = 1;
+        //    // Put on new path
+        //    //} else {
+        //    //pathPosition -= (Time.deltaTime * speed);
+        //    //}
+        //}
+
+        ////reverse path movement:
+        //if (Input.GetKeyDown(KeyCode.A)) {
+        //    characterDirection = Direction.Reverse;
+        //    Debug.Log("Backward");
+        //}
+        //if (Input.GetKey(KeyCode.A)) {
+        //    pathPercent = Mathf.Clamp01(pathPercent - speed * Time.deltaTime);
+        //}
+
+        ////jump:
+        //if (Input.GetKeyDown("space")) {
+        //    ySpeed -= jumpForce;
+        //    //jumpState = 1;
+        //    Debug.Log("Jump");
+        //}
+        //#endregion
     }
 
 
@@ -103,6 +145,7 @@ public class MoveOnPath : MonoBehaviour {
 
         Vector2 coordinateOnPath = iTween.PointOnPath(iTweenPath.GetPath(controlPath), pathPercent);
 
+        #region Rotate to look ahead
         //Vector3 lookTarget;
 
         ////calculate look data if we aren't going to be looking beyond the extents of the path:
@@ -118,21 +161,23 @@ public class MoveOnPath : MonoBehaviour {
         //    //look:
         //    transform.LookAt(lookTarget);
 
-            //nullify all rotations but y since we just want to look where we are going:
-            //float zRot = transform.eulerAngles.z;
-            //transform.eulerAngles = new Vector3(0, 0, zRot);
+        //nullify all rotations but y since we just want to look where we are going:
+        //float zRot = transform.eulerAngles.z;
+        //transform.eulerAngles = new Vector3(0, 0, zRot);
         //}
+        #endregion
 
         // Send a raycast down from the path to see where the floor is
-        if (Physics2D.Raycast(coordinateOnPath, Vector2.down, rayLength)) {
-            hit = Physics2D.Raycast(coordinateOnPath, Vector2.down, rayLength);
-            if (!hit.transform.gameObject.Equals(currentPath)) {
-                currentPath = hit.transform.gameObject;
-                if (!PathDictionary.paths.TryGetValue(currentPath, out controlPath)) {
-                    Debug.LogError("Could not find path " + currentPath.name);
-                }
-                Debug.Log("Switched paths.");
-            }
+        hit = Physics2D.Raycast(coordinateOnPath, Vector2.down, rayLength);
+        if (hit) {
+            //if (!hit.transform.gameObject.Equals(currentPath)) {
+            //    currentPath = hit.transform.gameObject;
+            //    if (!PathDictionary.paths.TryGetValue(currentPath, out controlPath)) {
+            //        Debug.LogError("Could not find path " + currentPath.name);
+            //    }
+            //    Debug.Log("Switched paths.");
+            //}
+
             Debug.DrawRay(coordinateOnPath, Vector2.down * hit.distance);
             floorPosition = hit.point;
             Debug.Log("hit " + hit.transform);
@@ -141,20 +186,21 @@ public class MoveOnPath : MonoBehaviour {
 
 
     void MoveCharacter() {
-        //add gravity:
-        ySpeed += gravity * Time.deltaTime;
+        if (!InLevelSettings.paused) {
+            //add gravity:
+            ySpeed += gravity * Time.deltaTime;
 
-        //apply gravity:
-        transform.position = new Vector2(floorPosition.x, transform.position.y - ySpeed);
+            //apply gravity:
+            transform.position = new Vector2(floorPosition.x, transform.position.y - ySpeed);
 
-        //floor checking:
-        if (transform.position.y < floorPosition.y) {
-            ySpeed = 0;
-            //jumpState = 0;
-            transform.position = new Vector2(floorPosition.x, floorPosition.y);
-            Land();
+            //floor checking:
+            if (transform.position.y < floorPosition.y) {
+                ySpeed = 0;
+                //jumpState = 0;
+                transform.position = new Vector2(floorPosition.x, floorPosition.y);
+                Land();
+            }
         }
-        
     }
 
     void Land() {

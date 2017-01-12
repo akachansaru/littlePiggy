@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PathDictionary : MonoBehaviour {
     public static Dictionary<GameObject, string> paths = new Dictionary<GameObject, string>();
+    public static int pathLayer = 13;
 
     void Start() {
         foreach (Transform child in transform) {
@@ -17,7 +18,7 @@ public class PathDictionary : MonoBehaviour {
 
     public static void DetectPaths() {
         foreach (GameObject path in paths.Keys) {
-            path.layer = 0; // Default layer
+            path.layer = pathLayer; // Paths layer
         }
     }
 
