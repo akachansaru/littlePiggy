@@ -30,7 +30,9 @@ public class MoveOnPath : MonoBehaviour {
         foreach (Transform child in transform) {
             child.gameObject.layer = 2;
         }
-        if (!PathDictionary.paths.TryGetValue(currentPath, out controlPath)) {
+        if (PathDictionary.paths.TryGetValue(currentPath, out controlPath)) {
+            currentPath.layer = 0; // Default layer. Will be detected by raycasts while all other paths are ignored
+        } else {
             Debug.LogError("Could not find path " + currentPath.name);
         }
     }
@@ -61,6 +63,7 @@ public class MoveOnPath : MonoBehaviour {
             ySpeed -= jumpForce;
             GetComponentInChildren<PigControlInput>().StartJumpAnimation();
             GetComponentInChildren<PigControlInput>().jump = false;
+            PathDictionary.DetectPaths();
             Debug.Log("Jump");
         }
 
@@ -149,11 +152,16 @@ public class MoveOnPath : MonoBehaviour {
             ySpeed = 0;
             //jumpState = 0;
             transform.position = new Vector2(floorPosition.x, floorPosition.y);
+            Land();
+        }
+        
+    }
 
-            if (PigControlInput.piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.jump)) {
-                PigControlInput.piggyAnimator.SetBool(ConstantValues.piggyAnimatorParameterNames.jump, false);
-                GetComponentInChildren<PigControlInput>().ChangeButtonStatusAll(true);
-            }
+    void Land() {
+        if (PigControlInput.piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.jump)) {
+            PigControlInput.piggyAnimator.SetBool(ConstantValues.piggyAnimatorParameterNames.jump, false);
+            GetComponentInChildren<PigControlInput>().ChangeButtonStatusAll(true);
+            PathDictionary.HidePaths(currentPath);
         }
     }
 
