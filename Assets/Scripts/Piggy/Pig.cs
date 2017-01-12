@@ -5,27 +5,28 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(LoadItemsOnPig))]
+[RequireComponent(typeof(PigControlInput))]
 public class Pig : MonoBehaviour {
 
     //VARIABLLE DECLARATIONS
     public static GameObject player;
 
-    //UI button objects
-    public GameObject forwardButton;
-    public GameObject backwardButton;
-    public GameObject jumpButton;
-    public GameObject kickButton;
-    public AnimationClip kickAnimation; // Can be forward or backward since they should be the same time
+    ////UI button objects
+    //public GameObject forwardButton;
+    //public GameObject backwardButton;
+    //public GameObject jumpButton;
+    //public GameObject kickButton;
+    //public AnimationClip kickAnimation; // Can be forward or backward since they should be the same time
 
-    private bool jump = false;
-    private bool kicked = false;
+    //private bool jump = false;
+    //private bool kicked = false;
     private AnimatorStateInfo currStateInfo;
     private AnimatorStateInfo newStateInfo;
-    private float kickAnimationTime;
+    //private float kickAnimationTime;
     private float jumpMovementScale = 0.5f; // Multiplier for moving while in the air. Should be < 1
                                             //Physical piggy paramters
     private Rigidbody2D rb;
-    private Animator piggyAnimator;
+    //private Animator piggyAnimator;
 
     // The current surface piggy is on
     private GameObject standingOn;
@@ -44,25 +45,26 @@ public class Pig : MonoBehaviour {
         set { gameStart = value; }
     }
 
-    public bool Kicking {
-        get { return piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.kick); }
-    }
+    //public bool Kicking {
+    //    get { return piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.kick); }
+    //}
 
-    public bool Jumping {
-        get { return piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.jump); }
-    }
+    //public bool Jumping {
+    //    get { return piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.jump); }
+    //}
 
-    public bool Kicked {
-        get { return kicked; }
-        set { kicked = value; }
-    }
+    //public bool Kicked {
+    //    get { return kicked; }
+    //    set { kicked = value; }
+    //}
 
-    public Animator PiggyAnimator {
-        get { return piggyAnimator; }
-    }
+    //public Animator PiggyAnimator {
+    //    get { return piggyAnimator; }
+    //}
 
     public GameObject StandingOn {
         get { return standingOn; }
+        set { standingOn = value; }
     }
 
     public void ModifySpeed(float modifier) {
@@ -74,80 +76,81 @@ public class Pig : MonoBehaviour {
     }
 
     void Start() {
-        iTween.PutOnPath(gameObject, iTweenPath.GetPath("EntryToLevelOne"), 0f);
-        piggyAnimator = GetComponentInChildren<Animator>();
+        //iTween.PutOnPath(gameObject, iTweenPath.GetPath("EntryToLevelOne"), 0f);
+        //piggyAnimator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         player = gameObject;
-        currStateInfo = piggyAnimator.GetCurrentAnimatorStateInfo(0);
-        kickAnimationTime = kickAnimation.length;
+        //currStateInfo = piggyAnimator.GetCurrentAnimatorStateInfo(0);
+        currStateInfo = PigControlInput.piggyAnimator.GetCurrentAnimatorStateInfo(0);
+        //kickAnimationTime = kickAnimation.length;
 
         // Deactivate all buttons until Piggy lands initially
-        ChangeButtonStatusAll(false);
+        GetComponent<PigControlInput>().ChangeButtonStatusAll(false);
     }
 
-    /// <summary>
-    /// Activate or deactivate buttons while an animation is happening.
-    /// </summary>
-    /// <param name="interactable">If set to <c>true</c> interactable.</param>
-    public void ChangeButtonStatusAll(bool interactable) {
-        ChangeButtonStatusIndividual(forwardButton, interactable);
-        ChangeButtonStatusIndividual(backwardButton, interactable);
-        ChangeButtonStatusIndividual(jumpButton, interactable);
-        ChangeButtonStatusIndividual(kickButton, interactable);
-    }
+    ///// <summary>
+    ///// Activate or deactivate buttons while an animation is happening.
+    ///// </summary>
+    ///// <param name="interactable">If set to <c>true</c> interactable.</param>
+    //public void ChangeButtonStatusAll(bool interactable) {
+    //    ChangeButtonStatusIndividual(forwardButton, interactable);
+    //    ChangeButtonStatusIndividual(backwardButton, interactable);
+    //    ChangeButtonStatusIndividual(jumpButton, interactable);
+    //    ChangeButtonStatusIndividual(kickButton, interactable);
+    //}
 
-    void ChangeButtonStatusIndividual(GameObject button, bool interactable) {
-        float alpha;
-        if (!interactable) {
-            alpha = 0.5f;
-        } else {
-            alpha = 1f;
-        }
-        Image buttonImage = button.GetComponent<Image>();
-        buttonImage.color = new Color(buttonImage.color.r, buttonImage.color.g, buttonImage.color.b, alpha);
-        buttonImage.raycastTarget = interactable;
-    }
+    //void ChangeButtonStatusIndividual(GameObject button, bool interactable) {
+    //    float alpha;
+    //    if (!interactable) {
+    //        alpha = 0.5f;
+    //    } else {
+    //        alpha = 1f;
+    //    }
+    //    Image buttonImage = button.GetComponent<Image>();
+    //    buttonImage.color = new Color(buttonImage.color.r, buttonImage.color.g, buttonImage.color.b, alpha);
+    //    buttonImage.raycastTarget = interactable;
+    //}
 
-    IEnumerator KickDuration() {
-        yield return new WaitForSeconds(kickAnimationTime);
-        piggyAnimator.SetBool(ConstantValues.piggyAnimatorParameterNames.kick, false);
-        kicked = false;
-        if (!CameraController.cameraController.Panning) {
-            ChangeButtonStatusAll(true);
-        }
-    }
+    //IEnumerator KickDuration() {
+    //    yield return new WaitForSeconds(kickAnimationTime);
+    //    piggyAnimator.SetBool(ConstantValues.piggyAnimatorParameterNames.kick, false);
+    //    kicked = false;
+    //    if (!CameraController.cameraController.Panning) {
+    //        ChangeButtonStatusAll(true);
+    //    }
+    //}
 
-    public void MoveForward() {
-        //		if (!piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.backward)) {
-        piggyAnimator.SetBool(ConstantValues.piggyAnimatorParameterNames.forward, true);
-        //		}
-    }
+    //public void MoveForward() {
+    //    //		if (!piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.backward)) {
+    //    piggyAnimator.SetBool(ConstantValues.piggyAnimatorParameterNames.forward, true);
+    //    //		}
+    //}
 
-    public void MoveBackward() {
-        //		if (!piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.forward)) {
-        piggyAnimator.SetBool(ConstantValues.piggyAnimatorParameterNames.backward, true);
-        //		}
-    }
+    //public void MoveBackward() {
+    //    //		if (!piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.forward)) {
+    //    piggyAnimator.SetBool(ConstantValues.piggyAnimatorParameterNames.backward, true);
+    //    //		}
+    //}
 
-    public void StopForward() {
-        piggyAnimator.SetBool(ConstantValues.piggyAnimatorParameterNames.forward, false);
-    }
+    //public void StopForward() {
+    //    piggyAnimator.SetBool(ConstantValues.piggyAnimatorParameterNames.forward, false);
+    //}
 
-    public void StopBackward() {
-        piggyAnimator.SetBool(ConstantValues.piggyAnimatorParameterNames.backward, false);
-    }
+    //public void StopBackward() {
+    //    piggyAnimator.SetBool(ConstantValues.piggyAnimatorParameterNames.backward, false);
+    //}
 
-    public void Jump() {
-        Debug.Log("Jump button");
-        jump = true;
-    }
+    //public void Jump() {
+    //    Debug.Log("Jump button");
+    //    jump = true;
+    //}
 
-    public void Kick() {
-        Debug.Log("Kick button");
-        piggyAnimator.SetBool(ConstantValues.piggyAnimatorParameterNames.kick, true);
-        ChangeButtonStatusAll(false);
-        StartCoroutine(KickDuration());
-    }
+    //public void Kick() {
+    //    Debug.Log("Kick button");
+    //    piggyAnimator.SetBool(ConstantValues.piggyAnimatorParameterNames.kick, true);
+    //    ChangeButtonStatusAll(false);
+    //    StartCoroutine(KickDuration());
+    //}
 
     void Update() {
 
@@ -165,7 +168,7 @@ public class Pig : MonoBehaviour {
 
         //		Debug.Log ("startingHeight = " + startingPosition.y);
 
-        newStateInfo = piggyAnimator.GetCurrentAnimatorStateInfo(0);
+        newStateInfo = PigControlInput.piggyAnimator.GetCurrentAnimatorStateInfo(0);
 
         if (ChangedDirection(currStateInfo, newStateInfo)) {
             for (int c = 0; c < transform.childCount; c++) {
@@ -178,37 +181,33 @@ public class Pig : MonoBehaviour {
 
 #if UNITY_EDITOR // Same thing PigControlButtons.cs does
         if (Input.GetKeyDown(KeyCode.D)) {
-            Pig.player.GetComponent<Pig>().MoveForward();
+            GetComponent<PigControlInput>().MoveForward();
         }
         if (Input.GetKeyDown(KeyCode.A)) {
-            Pig.player.GetComponent<Pig>().MoveBackward();
+            GetComponent<PigControlInput>().MoveBackward();
         }
         if (Input.GetKeyUp(KeyCode.D)) {
-            Pig.player.GetComponent<Pig>().StopForward();
+            GetComponent<PigControlInput>().StopForward();
         }
         if (Input.GetKeyUp(KeyCode.A)) {
-            Pig.player.GetComponent<Pig>().StopBackward();
+            GetComponent<PigControlInput>().StopBackward();
         }
-        if (!Jumping && Input.GetKeyUp(KeyCode.K)) {
-            Pig.player.GetComponent<Pig>().Kick();
+        if (!GetComponent<PigControlInput>().Jumping && Input.GetKeyUp(KeyCode.K)) {
+            GetComponent<PigControlInput>().Kick();
         }
-        if (!Jumping && Input.GetKeyDown(KeyCode.L)) {
-            Pig.player.GetComponent<Pig>().Jump();
+        if (!GetComponent<PigControlInput>().Jumping && Input.GetKeyDown(KeyCode.L)) {
+            GetComponent<PigControlInput>().Jump();
         }
 #endif
     }
 
     void FixedUpdate() {
-        if (jump) {
-            if (SceneManager.GetActiveScene().name.Equals("LevelSelection")) {
-                
-            } else {
-                startingPosition = transform.position;
-                rb.AddForce(Vector3.up * LevelManager.piggyJump, ForceMode2D.Impulse);
-                StartJumpAnimation();
-                jumpTime = Time.fixedTime;
-                jump = false;
-            }
+        if (GetComponent<PigControlInput>().jump) {
+            startingPosition = transform.position;
+            rb.AddForce(Vector3.up * LevelManager.piggyJump, ForceMode2D.Impulse);
+            GetComponent<PigControlInput>().StartJumpAnimation();
+            jumpTime = Time.fixedTime;
+            GetComponent<PigControlInput>().jump = false;
         }
         MovePiggy();
         lastVelocity = rb.velocity;
@@ -217,57 +216,57 @@ public class Pig : MonoBehaviour {
     /// <summary>
     /// Moves the piggy on ground or in air based on input if not over max horizontal speed.
     /// </summary>
-    float pathPercentage = 0f;
-    float speed = 0.5f;
+    //float pathPercentage = 0f;
+    //float speed = 0.5f;
     void MovePiggy() {
         // FIXME Piggy spazzes when forward and backward are pressed at the same time (queue it up?)
-        if (SceneManager.GetActiveScene().name.Equals("LevelSelection")) {
-            if (piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.forward)) {
-                //iTween.MoveTo(gameObject,
-                //iTween.Hash("path", iTweenPath.GetPath("EntryToLevelOne"), "time", 1, "easetype", iTween.EaseType.easeOutQuart));
-                pathPercentage = Mathf.Clamp01(pathPercentage + speed * Time.deltaTime);
-                iTween.PutOnPath(gameObject, iTweenPath.GetPath("EntryToLevelOne"), pathPercentage);
+        //if (SceneManager.GetActiveScene().name.Equals("LevelSelection")) {
+        //if (piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.forward)) {
+        //    //iTween.MoveTo(gameObject,
+        //    //iTween.Hash("path", iTweenPath.GetPath("EntryToLevelOne"), "time", 1, "easetype", iTween.EaseType.easeOutQuart));
+        //    pathPercentage = Mathf.Clamp01(pathPercentage + speed * Time.deltaTime);
+        //    iTween.PutOnPath(gameObject, iTweenPath.GetPath("EntryToLevelOne"), pathPercentage);
+        //}
+        //if (piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.backward)) {
+        //    pathPercentage = Mathf.Clamp01(pathPercentage - speed * Time.deltaTime);
+        //    iTween.PutOnPath(gameObject, iTweenPath.GetPath("EntryToLevelOne"), pathPercentage);
+        //}
+        //} else {
+        if ((rb.velocity.x <= LevelManager.piggySpeed) && PigControlInput.piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.forward)) {
+            // if (!piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.backward)) {
+            if (standingOn) {
+                // Move forward on the ground
+                rb.AddForce(Vector3.right * LevelManager.piggySpeed, ForceMode2D.Force);
+            } else {
+                // Move forward in the air
+                rb.AddForce(Vector3.right * LevelManager.piggySpeed * jumpMovementScale, ForceMode2D.Force);
             }
-            if (piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.backward)) {
-                pathPercentage = Mathf.Clamp01(pathPercentage - speed * Time.deltaTime);
-                iTween.PutOnPath(gameObject, iTweenPath.GetPath("EntryToLevelOne"), pathPercentage);
-            }
-        } else {
-            if ((rb.velocity.x <= LevelManager.piggySpeed) && piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.forward)) {
-                // if (!piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.backward)) {
-                if (standingOn) {
-                    // Move forward on the ground
-                    rb.AddForce(Vector3.right * LevelManager.piggySpeed, ForceMode2D.Force);
-                } else {
-                    // Move forward in the air
-                    rb.AddForce(Vector3.right * LevelManager.piggySpeed * jumpMovementScale, ForceMode2D.Force);
-                }
-                //			}
-            }
-            if ((-rb.velocity.x <= LevelManager.piggySpeed) && piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.backward)) {
-                //			if (!piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.forward)) {
-                if (standingOn) {
-                    // Move backward on the ground
-                    rb.AddForce(Vector3.left * LevelManager.piggySpeed, ForceMode2D.Force);
-                } else {
-                    // Move backward in the air
-                    rb.AddForce(Vector3.left * LevelManager.piggySpeed * jumpMovementScale, ForceMode2D.Force);
-                }
-                //			}
-            }
+            //			}
         }
+        if ((-rb.velocity.x <= LevelManager.piggySpeed) && PigControlInput.piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.backward)) {
+            //			if (!piggyAnimator.GetBool (ConstantValues.piggyAnimatorParameterNames.forward)) {
+            if (standingOn) {
+                // Move backward on the ground
+                rb.AddForce(Vector3.left * LevelManager.piggySpeed, ForceMode2D.Force);
+            } else {
+                // Move backward in the air
+                rb.AddForce(Vector3.left * LevelManager.piggySpeed * jumpMovementScale, ForceMode2D.Force);
+            }
+            //			}
+        }
+        //}
     }
 
-    /// <summary>
-    /// SetActive(isActive) is called for all of the pig control buttons.
-    /// </summary>
-    /// <param name="isActive">If set to <c>true</c> is active.</param>
-    public void ToggleActiveMovementButtons(bool isActive) {
-        forwardButton.SetActive(isActive);
-        backwardButton.SetActive(isActive);
-        jumpButton.SetActive(isActive);
-        kickButton.SetActive(isActive);
-    }
+    ///// <summary>
+    ///// SetActive(isActive) is called for all of the pig control buttons.
+    ///// </summary>
+    ///// <param name="isActive">If set to <c>true</c> is active.</param>
+    //public void ToggleActiveMovementButtons(bool isActive) {
+    //    forwardButton.SetActive(isActive);
+    //    backwardButton.SetActive(isActive);
+    //    jumpButton.SetActive(isActive);
+    //    kickButton.SetActive(isActive);
+    //}
 
     // TODO Make this not rely on state info
     bool ChangedDirection(AnimatorStateInfo currStateInfo, AnimatorStateInfo newStateInfo) {
@@ -292,8 +291,9 @@ public class Pig : MonoBehaviour {
 
         // Cases for colliding with a platform or the ground
         if (collisionTag.Contains(ConstantValues.tags.landable)) {
+            Debug.Log("rb: " + rb);
             // Lands the piggy if jumping and hits the floor
-            if (!standingOn && (Mathf.Abs(rb.velocity.y) <= 0.01f)) {
+            if ((standingOn == null) && (Mathf.Abs(rb.velocity.y) <= 0.01f)) {
                 LandPiggy(other.gameObject);
 
                 // Make piggy move relative to platform.
@@ -315,20 +315,20 @@ public class Pig : MonoBehaviour {
             CameraController.cameraController.Ground = standingOn;
         }
         Debug.Log("Landed. Standing on " + standingOn);
-        piggyAnimator.SetBool(ConstantValues.piggyAnimatorParameterNames.jump, false);
+        PigControlInput.piggyAnimator.SetBool(ConstantValues.piggyAnimatorParameterNames.jump, false);
         if (gameStart) {
             gameStart = false;
         }
-        ChangeButtonStatusAll(true);
+        GetComponent<PigControlInput>().ChangeButtonStatusAll(true);
     }
 
-    void StartJumpAnimation() {
-        piggyAnimator.SetBool(ConstantValues.piggyAnimatorParameterNames.jump, true);
-        ChangeButtonStatusIndividual(kickButton, false);
-        ChangeButtonStatusIndividual(jumpButton, false);
-        standingOn = null; // TODO I think this causes a problem sometimes when checking if piggy is leaving what he was standing on
-        Debug.Log("Start jump animation");
-    }
+    //void StartJumpAnimation() {
+    //    GetComponent<PigControlInput>().piggyAnimator.SetBool(ConstantValues.piggyAnimatorParameterNames.jump, true);
+    //    GetComponent<PigControlInput>().ChangeButtonStatusIndividual(kickButton, false);
+    //    GetComponent<PigControlInput>().ChangeButtonStatusIndividual(jumpButton, false);
+    //    standingOn = null; // TODO I think this causes a problem sometimes when checking if piggy is leaving what he was standing on
+    //    Debug.Log("Start jump animation");
+    //}
 
     void OnCollisionExit2D(Collision2D other) {
         string collisionTag = other.collider.gameObject.tag;
@@ -338,8 +338,8 @@ public class Pig : MonoBehaviour {
         if (other.gameObject.Equals(standingOn)) {
             // Go into jump animation if leaving the ground by falling or jumping, 
             // but not by going through a one-way platform when piggy is already jumping
-            if (!piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.jump)) {
-                StartJumpAnimation();
+            if (!PigControlInput.piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.jump)) {
+                GetComponent<PigControlInput>().StartJumpAnimation();
             }
         }
 

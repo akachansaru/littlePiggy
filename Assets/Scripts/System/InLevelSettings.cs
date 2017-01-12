@@ -61,7 +61,7 @@ public class InLevelSettings : Settings {
 			unpauseButton.gameObject.SetActive (true);
 		}
 		Time.timeScale = 0f;
-		player.GetComponent<Pig>().ToggleActiveMovementButtons(false);
+		player.GetComponent<PigControlInput>().ToggleActiveMovementButtons(false);
 	}
 
 	public void UnpauseGame() {
@@ -74,7 +74,7 @@ public class InLevelSettings : Settings {
 			pauseButton.gameObject.SetActive (true);
 		}
 		Time.timeScale = 1f;
-		player.GetComponent<Pig>().ToggleActiveMovementButtons(true);
+		player.GetComponent<PigControlInput>().ToggleActiveMovementButtons(true);
 	}
 
 	void OpenPanel(GameObject panel) {
