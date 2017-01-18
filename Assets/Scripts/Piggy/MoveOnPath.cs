@@ -2,14 +2,15 @@
 using System.Collections;
 
 public class MoveOnPath : MonoBehaviour {
-    public GameObject currentPath;
+    //public GameObject currentPath;
+    private string currentPath;
     //public Transform character;
     public enum Direction { Forward, Reverse };
 
     //private float pathPosition = 0f;
     private float pathPercent = 0f;
     private RaycastHit2D hit;
-    private string controlPath;
+    //private string controlPath;
     private float speed = 0.2f;
     private float rayLength = 5;
     private Direction characterDirection;
@@ -18,6 +19,7 @@ public class MoveOnPath : MonoBehaviour {
     private float ySpeed = 0;
     private float gravity = 0.5f;
     private float jumpForce = 0.19f;
+    private bool autoMovement = false;
     //private uint jumpState = 0; //0=grounded 1=jumping
 
     //void OnDrawGizmos() {
@@ -30,7 +32,8 @@ public class MoveOnPath : MonoBehaviour {
         foreach (Transform child in transform) {
             child.gameObject.layer = 2;
         }
-
+        currentPath = PathList.currentPathNode.Value;
+        Debug.Log("CurrentPath: " + currentPath);
         // Put current path on the path layer so raycasts will detect it
         //if (PathDictionary.paths.TryGetValue(currentPath, out controlPath)) {
         //    currentPath.layer = PathDictionary.pathLayer; // Default layer. Will be detected by raycasts while all other paths are ignored
@@ -41,27 +44,84 @@ public class MoveOnPath : MonoBehaviour {
 
 
     void Update() {
-        DetectInput();
-        FindFloorAndRotation();
-        MoveCharacter();
+        if (!autoMovement) {
+            DetectInput();
+            FindFloorAndRotation();
+            MoveCharacter();
+        }
         MoveCamera();
+    }
+
+    string NextPath() {
+        Debug.Log("Previous path: " + PathList.currentPathNode.Value);
+        PathList.currentPathNode = PathList.currentPathNode.Next;
+        Debug.Log("New path: " + PathList.currentPathNode.Value);
+        return PathList.currentPathNode.Value;
+    }
+
+    IEnumerator MoveAlongCurveUp(float timeTaken) {
+        yield return new WaitForSeconds(timeTaken);
+        currentPath = NextPath();
+        GetComponentInChildren<PigControlInput>().ChangeButtonStatusAll(true);
+        autoMovement = false;
+        pathPercent = 0f;
     }
 
     void GoToNextLevel() {
         // Deactivate user controls and switch to path around curve
         GetComponentInChildren<PigControlInput>().ChangeButtonStatusAll(false);
-        controlPath = PathList.currentPath.Next.Value.pathName;
-        Debug.Log("controlPath: " + controlPath);
+        autoMovement = true;
+        //controlPath = PathList.currentPath.Next.Value.pathName;
+        //Debug.Log("controlPath: " + controlPath);
+        currentPath = NextPath();
+        speed = -speed; // Invert speed so piggy moves in correct direction
+        float timeTaken = 1.5f;
+        iTween.MoveTo(gameObject, iTween.Hash("path", iTweenPath.GetPath(currentPath), "time", timeTaken, "easetype", iTween.EaseType.easeInOutSine));
+        StartCoroutine(MoveAlongCurveUp(timeTaken));
     }
 
+    void GoToPreviousLevel() {
+        // Deactivate user controls and switch to path around curve
+        GetComponentInChildren<PigControlInput>().ChangeButtonStatusAll(false);
+        autoMovement = true;
+        //controlPath = PathList.currentPath.Next.Value.pathName;
+        //Debug.Log("controlPath: " + controlPath);
+        currentPath = PreviousPath();
+        speed = -speed; // Invert speed so piggy moves in correct direction
+        float timeTaken = 1.5f;
+        iTween.MoveTo(gameObject, iTween.Hash("path", iTweenPath.GetPathReversed(currentPath), "time", timeTaken, "easetype", iTween.EaseType.easeInOutSine));
+        StartCoroutine(MoveAlongCurveDown(timeTaken));
+    }
+
+    string PreviousPath() {
+        Debug.Log("Previous path: " + PathList.currentPathNode.Value);
+        PathList.currentPathNode = PathList.currentPathNode.Previous;
+        Debug.Log("New path: " + PathList.currentPathNode.Value);
+        return PathList.currentPathNode.Value;
+    }
+
+    IEnumerator MoveAlongCurveDown(float timeTaken) {
+        yield return new WaitForSeconds(timeTaken);
+        currentPath = PreviousPath();
+        GetComponentInChildren<PigControlInput>().ChangeButtonStatusAll(true);
+        autoMovement = false;
+        pathPercent = 1f;
+    }
+
+
     void DetectInput() {
+        Debug.Log("Current path " + currentPath);
         if (PigControlInput.piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.forward)) {
             characterDirection = Direction.Forward;
             pathPercent = Mathf.Clamp01(pathPercent + speed * Time.deltaTime);
             Debug.Log("Forward");
-            if (pathPercent == 1) {
-                Debug.Log("End of path");
+            if ((pathPercent == 1f) && (PathList.currentPathNode.Next != null)) {
+                Debug.Log("End of path. Going up.");
                 GoToNextLevel();
+            }
+            if ((pathPercent == 0f) && (PathList.currentPathNode.Previous != null)) {
+                Debug.Log("End of path. Going down.");
+                GoToPreviousLevel();
             }
         }
 
@@ -69,6 +129,14 @@ public class MoveOnPath : MonoBehaviour {
             characterDirection = Direction.Reverse;
             pathPercent = Mathf.Clamp01(pathPercent - speed * Time.deltaTime);
             Debug.Log("Backward");
+            if ((pathPercent == 1f) && (PathList.currentPathNode.Next != null)) {
+                Debug.Log("End of path. Going up.");
+                GoToNextLevel();
+            }
+            if ((pathPercent == 0f) && (PathList.currentPathNode.Previous != null)) {
+                Debug.Log("End of path. Going down.");
+                GoToPreviousLevel();
+            }
         }
 
         if (GetComponentInChildren<PigControlInput>().jump) {
@@ -79,30 +147,29 @@ public class MoveOnPath : MonoBehaviour {
             Debug.Log("Jump");
         }
 
-#region Keyboard input
+        #region Keyboard input
 #if UNITY_EDITOR // Same thing PigControlButtons.cs does
-        if (Input.GetKeyDown(KeyCode.D)) {
-            GetComponentInChildren<PigControlInput>().MoveForward();
-        }
-        if (Input.GetKeyDown(KeyCode.A)) {
-            GetComponentInChildren<PigControlInput>().MoveBackward();
-        }
-        if (Input.GetKeyUp(KeyCode.D)) {
-            GetComponentInChildren<PigControlInput>().StopForward();
-        }
-        if (Input.GetKeyUp(KeyCode.A)) {
-            GetComponentInChildren<PigControlInput>().StopBackward();
-        }
-        if (!GetComponentInChildren<PigControlInput>().Jumping && Input.GetKeyUp(KeyCode.K)) {
-            GetComponentInChildren<PigControlInput>().Kick();
-        }
-        if (!GetComponentInChildren<PigControlInput>().Jumping && Input.GetKeyDown(KeyCode.L)) {
-            GetComponentInChildren<PigControlInput>().Jump();
+        if (!autoMovement) {
+            if (Input.GetKeyDown(KeyCode.D)) {
+                GetComponentInChildren<PigControlInput>().MoveForward();
+            }
+            if (Input.GetKeyDown(KeyCode.A)) {
+                GetComponentInChildren<PigControlInput>().MoveBackward();
+            }
+            if (Input.GetKeyUp(KeyCode.D)) {
+                GetComponentInChildren<PigControlInput>().StopForward();
+            }
+            if (Input.GetKeyUp(KeyCode.A)) {
+                GetComponentInChildren<PigControlInput>().StopBackward();
+            }
+            if (!GetComponentInChildren<PigControlInput>().Jumping && Input.GetKeyUp(KeyCode.K)) {
+                GetComponentInChildren<PigControlInput>().Kick();
+            }
+            if (!GetComponentInChildren<PigControlInput>().Jumping && Input.GetKeyDown(KeyCode.L)) {
+                GetComponentInChildren<PigControlInput>().Jump();
+            }
         }
 #endif
-#endregion
-
-        //#region Keyboard input
         ////forward path movement:
         //if (Input.GetKeyDown(KeyCode.D)) {
         //    characterDirection = Direction.Forward;
@@ -136,14 +203,15 @@ public class MoveOnPath : MonoBehaviour {
         //    //jumpState = 1;
         //    Debug.Log("Jump");
         //}
-        //#endregion
+        #endregion
     }
 
 
     void FindFloorAndRotation() {
         //float pathPercent = pathPosition % 1;
 
-        Vector2 coordinateOnPath = iTween.PointOnPath(iTweenPath.GetPath(controlPath), pathPercent);
+        //Vector2 coordinateOnPath = iTween.PointOnPath(iTweenPath.GetPath(controlPath), pathPercent);
+        Vector2 coordinateOnPath = iTween.PointOnPath(iTweenPath.GetPath(currentPath), pathPercent);
 
         #region Rotate to look ahead
         //Vector3 lookTarget;
@@ -180,7 +248,6 @@ public class MoveOnPath : MonoBehaviour {
 
             Debug.DrawRay(coordinateOnPath, Vector2.down * hit.distance);
             floorPosition = hit.point;
-            Debug.Log("hit " + hit.transform);
         }
     }
 
@@ -207,7 +274,7 @@ public class MoveOnPath : MonoBehaviour {
         if (PigControlInput.piggyAnimator.GetBool(ConstantValues.piggyAnimatorParameterNames.jump)) {
             PigControlInput.piggyAnimator.SetBool(ConstantValues.piggyAnimatorParameterNames.jump, false);
             GetComponentInChildren<PigControlInput>().ChangeButtonStatusAll(true);
-            PathDictionary.HidePaths(currentPath);
+            //PathDictionary.HidePaths(currentPath);
         }
     }
 

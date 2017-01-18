@@ -116,7 +116,6 @@ public class PigControlInput : MonoBehaviour {
     }
 
     public void ChangeButtonStatusIndividual(GameObject button, bool interactable) {
-        Debug.Log("Changed button " + button.name + " to " + interactable);
         float alpha;
         if (!interactable) {
             alpha = 0.5f;

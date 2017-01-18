@@ -3,17 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PathList : MonoBehaviour {
-    public static LinkedList<PathNode> pathList = new LinkedList<PathNode>();
-    public static LinkedListNode<PathNode> currentPath;
+    public static LinkedList<string> pathList = new LinkedList<string>();
+    public static LinkedListNode<string> currentPathNode;
 
     void Start() {
-        foreach (Transform child in transform) {
-            if (child.gameObject.GetComponent<PathNode>()) {
-                pathList.AddFirst(child.GetComponent<PathNode>());
-            }
+        AssemblePath();
+        currentPathNode = pathList.First;
+        Debug.Log("Starting path: " + currentPathNode.Value);
+    }
+
+    void AssemblePath() {
+        //foreach (Transform child in transform) {
+        //    if (child.gameObject.GetComponent<PathNode>()) {
+        //        pathList.AddFirst(child.GetComponent<PathNode>());
+        //    }
+        //}
+        iTweenPath[] paths = GetComponentsInChildren<iTweenPath>();
+        foreach (iTweenPath path in paths) {
+            Debug.Log("PathList: " + path.pathName);
+            pathList.AddLast(path.pathName);
         }
-        currentPath = pathList.First;
-        Debug.Log("PathList: " + pathList);
-        Debug.Log("CurrentPath: " + currentPath);
     }
 }
