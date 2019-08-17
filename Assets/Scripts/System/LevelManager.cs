@@ -124,6 +124,8 @@ public class LevelManager : MonoBehaviour {
         // UNDONE Add cloth count to end screen
         GlobalControl.Instance.savedData.SafeDonutCount += levelInstance.donutsCollected;
         GlobalControl.Instance.savedData.SafeClothCount += levelInstance.clothCollected;
+
+        // Probably should turn this into a dictionary to keep track of complete levels
         if (GlobalControl.Instance.savedData.CompletedLevels.Length > (levelNumber + 1)) {
             GlobalControl.Instance.savedData.CompletedLevels[levelNumber + 1] = true;
             Debug.Log("Level " + (levelNumber + 1) + " unlocked");
