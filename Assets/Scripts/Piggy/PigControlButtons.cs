@@ -7,23 +7,23 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class PigControlButtons : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
 
-    public void OnPointerDown(PointerEventData eventData) {
-        if (gameObject.name == ConstantValues.piggyAnimatorParameterNames.forward) {
-            PigControlInput.pig.GetComponent<PigControlInput>().MoveForward();
-        } else if (gameObject.name == ConstantValues.piggyAnimatorParameterNames.backward) {
-            PigControlInput.pig.GetComponent<PigControlInput>().MoveBackward();
-        } else if (gameObject.name == ConstantValues.piggyAnimatorParameterNames.jump) {
-            PigControlInput.pig.GetComponent<PigControlInput>().Jump();
-        } else if (gameObject.name == ConstantValues.piggyAnimatorParameterNames.kick) {
-            PigControlInput.pig.GetComponent<PigControlInput>().Kick();
-        }
-    }
+	public void OnPointerDown(PointerEventData eventData) {
+		if (gameObject.name == ConstantValues.piggyAnimatorParameterNames.forward) {
+			Pig.player.GetComponent<Pig>().MoveForward ();
+		} else if (gameObject.name == ConstantValues.piggyAnimatorParameterNames.backward) {
+			Pig.player.GetComponent<Pig>().MoveBackward ();
+		} else if (gameObject.name == ConstantValues.piggyAnimatorParameterNames.jump) {
+			Pig.player.GetComponent<Pig> ().Jump ();
+		} else if (gameObject.name == ConstantValues.piggyAnimatorParameterNames.kick) {
+			Pig.player.GetComponent<Pig> ().Kick ();
+		}
+	}
 
-    public void OnPointerUp(PointerEventData eventData) {
-        if (gameObject.name == ConstantValues.piggyAnimatorParameterNames.forward) {
-            PigControlInput.pig.GetComponent<PigControlInput>().StopForward();
-        } else if (gameObject.name == ConstantValues.piggyAnimatorParameterNames.backward) {
-            PigControlInput.pig.GetComponent<PigControlInput>().StopBackward();
-        }
-    }
+	public void OnPointerUp(PointerEventData eventData) {
+		if (gameObject.name == ConstantValues.piggyAnimatorParameterNames.forward) {
+			Pig.player.GetComponent<Pig> ().StopForward ();
+		} else if (gameObject.name == ConstantValues.piggyAnimatorParameterNames.backward) {
+			Pig.player.GetComponent<Pig> ().StopBackward ();
+		}
+	}
 }

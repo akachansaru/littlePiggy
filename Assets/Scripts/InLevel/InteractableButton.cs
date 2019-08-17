@@ -13,8 +13,8 @@ public class InteractableButton : MonoBehaviour {
 
 	public void KickButton() {
 		if (kickButton) {
-            // Toggle the kick button
-            PressButton (!buttonPressed);
+			// Toggle the kick button
+			PressButton (!buttonPressed);
 		}
 	}
 

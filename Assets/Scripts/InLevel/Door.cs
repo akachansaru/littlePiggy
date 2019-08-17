@@ -11,5 +11,5 @@ public class Door : DoOnButtonPress {
 	public override void Deactivate () {
 		CameraController.cameraController.PanCamera (transform.position);
 		gameObject.SetActive (true);
-    }
+	}
 }

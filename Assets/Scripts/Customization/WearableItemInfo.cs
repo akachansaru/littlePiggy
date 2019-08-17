@@ -2,12 +2,12 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class WearableItemInfo : ItemInfo {
+public class WearableItemInfo : MonoBehaviour {
 
-	public Color itemColor;
+	public string itemName;
+	public Image image;
+	public string stat;
+	public int statIncrease;
 	public int clothPrice;
 
-	public override Item MakeItem () {
-		return new HeadItem (base.itemName, new SerializableColor(itemColor), new SpriteRenderer(), base.statIncrease, clothPrice, false);
-	}
 }

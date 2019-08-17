@@ -3,7 +3,8 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class UseItem : MonoBehaviour, IDisplayItemInfo {
+// TODO This is bassically the same as BuyItem.cs so could merge them together
+public class UseItem : MonoBehaviour {
 
 	public GameObject useItemPanel;
 	public Image itemImage;
@@ -19,27 +20,21 @@ public class UseItem : MonoBehaviour, IDisplayItemInfo {
 	private bool usingSpeedItem = false;
 	// TODO Add in other stats
 
-	/// <summary>
-	/// Opens the panel for the specific item tapped on.
-	/// </summary>
-	public void DisplayItemInfo() {
+	// Opens the panel for the specific item tapped on
+	public void OpenUseItemPanel() {
 		selectedItem = EventSystem.current.currentSelectedGameObject;
 		OneTimeItemInfo itemInfo = selectedItem.GetComponent<OneTimeItemInfo> ();
-		oneTimeItem = itemInfo.MakeItem() as OneTimeItem;
-		itemImage = itemInfo.itemImage;
-		statBoostText.text = itemInfo.itemStat + " +" + itemInfo.statIncrease + " for " + itemInfo.statDuration + " seconds";
+		oneTimeItem = itemInfo.MakeItem();
+		itemImage = itemInfo.image;
+		statBoostText.text = itemInfo.stat + " +" + itemInfo.statIncrease + " for " + itemInfo.statDuration + " seconds";
 		numberOwnedText.text = "Currently have " + AmountOwned();
 		useItemPanel.SetActive (true);
 	}
 
-	/// <summary>
-	/// Applies the stats and starts the timer once the panel is closed.
-	/// </summary>
-	public void AcceptItem() {
+	public void Use() {
 		Debug.Log ("oneTimeItem: " + oneTimeItem.itemStat);
-		// FIXME I think the itemStat is probably not set correctly somewhere
 		if (((oneTimeItem.itemStat == "Jump") && !usingJumpItem) ||
-			((oneTimeItem.itemStat == "Speed") && !usingSpeedItem)) {
+		    ((oneTimeItem.itemStat == "Speed") && !usingSpeedItem)) {
 			if (oneTimeItem.itemStat == "Jump") {
 				usingJumpItem = true;
 			}
@@ -51,15 +46,11 @@ public class UseItem : MonoBehaviour, IDisplayItemInfo {
 			ApplyStats (selectedItem.GetComponent<OneTimeItemInfo> ());
 			// Won't start the countdown until the game is unpaused because using WaitForSeconds
 			StartCoroutine (StartTimer (selectedItem.GetComponent<OneTimeItemInfo> ()));
+			ClosePanel ();
 		} else {
 			Debug.Log ("Already using that kind of item.");
 			// TODO Add in a message that you can't use two of the same kind of item
 		}
-	}
-
-	public void CloseItemInfoPanel() {
-		useItemPanel.SetActive (false);
-		oneTimeItem = null;
 	}
 
 	string AmountOwned() {
@@ -94,28 +85,33 @@ public class UseItem : MonoBehaviour, IDisplayItemInfo {
 
 	IEnumerator StartTimer(OneTimeItemInfo itemInfo) {
 		Debug.Log ("Timer start");
-		if (itemInfo.itemStat == "Jump") {
+		if (itemInfo.stat == "Jump") {
 			jumpTimer.StartTimer (itemInfo.statDuration);
-		} else if (itemInfo.itemStat == "Jump") {
+		} else if (itemInfo.stat == "Jump") {
 			speedTimer.StartTimer (itemInfo.statDuration);
 		}
 		yield return new WaitForSeconds ((float)itemInfo.statDuration);
 //		Debug.Log ("oneTimeItem: " + oneTimeItem.itemStat);
-		if (itemInfo.itemStat == "Jump") {
+		if (itemInfo.stat == "Jump") {
 			usingJumpItem = false;
 		}
-		if (itemInfo.itemStat == "Jump") {
+		if (itemInfo.stat == "Jump") {
 			usingSpeedItem = false;
 		}
 		RemoveItemEffects(itemInfo);
 		Debug.Log ("Timer end");
 	}
 
+	public void ClosePanel() {
+		useItemPanel.SetActive (false);
+		oneTimeItem = null;
+	}
+
 	void ApplyStats(OneTimeItemInfo info) {
-		if (info.itemStat == "Jump") {
+		if (info.stat == "Jump") {
 			LevelManager.levelManager.jumpModifier = info.statIncrease;
 			Debug.Log ("Aplied stats. Jump now " + LevelManager.piggyJump);
-		} else if (info.itemStat == "Speed") {
+		} else if (info.stat == "Speed") {
 			LevelManager.levelManager.speedModifier = info.statIncrease;
 			Debug.Log ("Aplied stats. Speed now " + LevelManager.piggySpeed);
 		}
@@ -123,11 +119,11 @@ public class UseItem : MonoBehaviour, IDisplayItemInfo {
 	}
 
 	void RemoveItemEffects(OneTimeItemInfo info) {
-		if (info.itemStat == "Jump") {
+		if (info.stat == "Jump") {
 			LevelManager.levelManager.jumpModifier = 0;
 			// TODO Make levelManager update stats whenever something is changed
 			Debug.Log ("Removed stats. Jump now " + LevelManager.piggyJump);
-		} else if (info.itemStat == "Speed") {
+		} else if (info.stat == "Speed") {
 			LevelManager.levelManager.speedModifier = 1;
 			Debug.Log ("Removed stats. Speed now " + LevelManager.piggySpeed);
 		} else {

@@ -27,11 +27,10 @@ public class LoadItemsOnPig : MonoBehaviour {
 		headItem.GetComponent<BoxCollider2D> ().isTrigger = true;
 		headItem.transform.localScale = Vector3.one;
 		headItem.transform.localPosition = new Vector3 (0.5f, 0.7f, 0f);
-        headItem.layer = 2; // Ignore raycast layer
 	}
 
 	void ApplyStats(HeadItem current) {
-		LevelManager.levelManager.jumpModifier += current.itemStatIncrease;
+		LevelManager.levelManager.jumpModifier += current.statBoost;
 		Debug.Log ("Stat boost " + LevelManager.levelManager.jumpModifier);
 	}
 }

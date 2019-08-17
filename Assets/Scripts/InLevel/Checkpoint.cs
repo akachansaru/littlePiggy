@@ -7,7 +7,7 @@ public class Checkpoint : MonoBehaviour {
 		if (other.gameObject.tag.Contains(ConstantValues.tags.player)) {
 			Debug.Log("Checkpoint");
 			LevelManager.levelManager.levelInstance.lastCheckpoint = gameObject;
-            //			LevelManager.levelManager.SaveLevelInstance();
-        }
-    }
+//			LevelManager.levelManager.SaveLevelInstance();
+		}
+	}
 }

@@ -5,7 +5,7 @@ public class ButtonActiveIfUnlocked : MonoBehaviour {
 
 	public int levelNumber;
 
-	void Start() {
+	void Start () {
 		SpriteRenderer boxColor = gameObject.GetComponent<SpriteRenderer> ();
 
 		if (!GlobalControl.Instance.savedData.CompletedLevels[levelNumber]) {

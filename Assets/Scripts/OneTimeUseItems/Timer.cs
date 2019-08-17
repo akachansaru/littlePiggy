@@ -6,7 +6,7 @@ public class Timer : MonoBehaviour {
 
 	private float currentTime;
 	private float endTime;
-    private Text timerText;
+	private Text timerText;
 
 	void Start() {
 		timerText = GetComponent<Text> ();

@@ -8,7 +8,7 @@ public class SerializableColor {
 
 	public SerializableColor(Color color) {
 		r = color.r;
-        g = color.g;
+		g = color.g;
 		b = color.b;
 		a = color.a;
 	}

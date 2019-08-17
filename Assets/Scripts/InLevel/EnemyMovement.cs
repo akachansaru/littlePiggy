@@ -9,7 +9,7 @@ namespace Enemy {
 	[RequireComponent (typeof(BoxCollider2D))]
 	[RequireComponent (typeof(Rigidbody2D))]
 	[RequireComponent (typeof(DestroyOnFall))]
-	[RequireComponent(typeof(Animator))]
+	[RequireComponent (typeof(Animator))]
 	public class EnemyMovement : MonoBehaviour {
 
 		public float maxHp;

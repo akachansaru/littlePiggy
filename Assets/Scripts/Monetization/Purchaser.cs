@@ -52,6 +52,7 @@ public class Purchaser : MonoBehaviour, IStoreListener {
 		UnityPurchasing.Initialize(this, builder);
 	}
 
+
 	private bool IsInitialized() {
 		// Only say we are initialized if both the Purchasing references are set.
 		return m_StoreController != null && m_StoreExtensionProvider != null;
@@ -77,11 +78,14 @@ public class Purchaser : MonoBehaviour, IStoreListener {
 		}
 	}
 
+
 	public void BuyNonConsumable(string id) {
 		// Buy the non-consumable product using its general identifier. Expect a response either 
 		// through ProcessPurchase or OnPurchaseFailed asynchronously.
 		BuyProductID (id);
+		// UNDONE Add functionality to buy new clothing items and add to list of available items
 	}
+
 
 	void BuyProductID(string productId)	{
 		// If Purchasing has been initialized ...
@@ -122,16 +126,13 @@ public class Purchaser : MonoBehaviour, IStoreListener {
 		m_StoreExtensionProvider = extensions;
 	}
 
+
 	public void OnInitializeFailed(InitializationFailureReason error) {
 		// Purchasing set-up has not succeeded. Check error for reason. Consider sharing this reason with the user.
 		Debug.Log("OnInitializeFailed InitializationFailureReason:" + error);
 	}
 
-	/// <summary>
-	/// This is where the purchased item is incorporated into the game.
-	/// </summary>
-	/// <returns>The purchase.</returns>
-	/// <param name="args">Arguments.</param>
+
 	public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args) {
 		// A cloth bundle has been purchased by this user.
 		if (String.Equals(args.purchasedProduct.definition.id, productIDClothSmall, StringComparison.Ordinal))	{
@@ -149,10 +150,12 @@ public class Purchaser : MonoBehaviour, IStoreListener {
 		} else if (String.Equals(args.purchasedProduct.definition.id, productIDHeadItemRound, StringComparison.Ordinal)) {
 			// Or ... a non-consumable product has been purchased by this user.
 			Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+			Debug.Log ("Hats: " + GlobalControl.Instance.savedData.unlockedHeadItems.Count);
 			GlobalControl.Instance.savedData.unlockedHeadItems.Add (new HeadItem(productIDHeadItemRound, SerializableColor.white, new SpriteRenderer(),
 				50, 100, false));
+			Debug.Log ("Hats: " + GlobalControl.Instance.savedData.unlockedHeadItems.Count);
 		} else {
-			// Or ... an unknown product has been purchased by this user.
+			// Or ... an unknown product has been purchased by this user. Fill in additional products here....
 			Debug.Log(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", args.purchasedProduct.definition.id));
 		}
 
@@ -162,6 +165,7 @@ public class Purchaser : MonoBehaviour, IStoreListener {
 		GlobalControl.Instance.Save();
 		return PurchaseProcessingResult.Complete;
 	}
+
 
 	public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason) {
 		// A product purchase attempt did not succeed. Check failureReason for more detail. Consider sharing 

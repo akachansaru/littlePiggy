@@ -9,7 +9,7 @@ public class DragDyeAndPattern : DragWearableItem {
 			if (ModifierOnItem.inItemArea) {
 				ModifierOnItem.modifierOnItem.ApplyToItem(draggedObject);
 			} else {
-                Destroy (draggedObject);
+				Destroy (draggedObject);
 				GrayOutListOption (false);
 			}
 			dragging = false;

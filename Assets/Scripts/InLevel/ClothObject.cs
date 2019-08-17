@@ -9,7 +9,7 @@ public class ClothObject : MonoBehaviour {
 	public float rotScale;
 	public int value;
 
-    private float yPos;
+	private float yPos;
 	private float theta;
 	private float fromDegrees;
 
