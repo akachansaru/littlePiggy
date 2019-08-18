@@ -60,14 +60,15 @@ public class GlobalControl : MonoBehaviour {
 
     public void Save() {
 		BinaryFormatter bf = new BinaryFormatter();
-		FileStream file = File.Create(Application.persistentDataPath + "/saveValues.sheep");
+        FileStream file = File.Create(Application.persistentDataPath + "/saveValues.sheep");
 		bf.Serialize(file, savedData);
 		file.Close();
 		Debug.Log("Saved: " + savedData.SafeDonutCount);
 	}
 	
 	public void Load() {
-		if (File.Exists(Application.persistentDataPath + "/saveValues.sheep")) {
+        Debug.Log(Application.persistentDataPath);
+        if (File.Exists(Application.persistentDataPath + "/saveValues.sheep")) {
 			BinaryFormatter bf = new BinaryFormatter();
 			FileStream file = File.Open(Application.persistentDataPath + "/saveValues.sheep", FileMode.Open);
 			savedData = (SaveValues) bf.Deserialize(file);
