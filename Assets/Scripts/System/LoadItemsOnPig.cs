@@ -30,7 +30,7 @@ public class LoadItemsOnPig : MonoBehaviour {
 	}
 
 	void ApplyStats(HeadItem current) {
-		LevelManager.levelManager.jumpModifier += current.itemStatIncrease;
+		LevelManager.levelManager.jumpModifier += current.statBoost;
 		Debug.Log ("Stat boost " + LevelManager.levelManager.jumpModifier);
 	}
 }

@@ -28,7 +28,7 @@ namespace Enemy {
 			if (UnityEngine.Random.Range(0f, 1f) < dropChance) {
 				Debug.Log ("Upgrade created.");
 				int i = UnityEngine.Random.Range (0, GlobalControl.Instance.savedData.unlockedHeadItems.Count);
-				spawnList.Add (Resources.Load ("Prefabs/SpawnItems/" + GlobalControl.Instance.savedData.unlockedHeadItems[i].itemName));
+				spawnList.Add (Resources.Load ("Prefabs/SpawnItems/" + GlobalControl.Instance.savedData.unlockedHeadItems[i].headItemStyle));
 			}
 		}
 

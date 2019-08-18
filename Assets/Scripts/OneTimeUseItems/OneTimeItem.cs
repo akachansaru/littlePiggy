@@ -4,31 +4,31 @@ using System;
 using UnityEngine.UI;
 
 [Serializable]
-public class OneTimeItem : Item {
+public class OneTimeItem {
+
+	public string itemName;
+	public string itemStat;
+	public int itemStatIncrease;
 	public int itemStatDuration;
 	public int amountOwned;
 
 	public OneTimeItem(String name, string stat, int statIncrease, int statDuration) {
-		base.itemName = name;
-		base.itemStat = stat;
-		base.itemStatIncrease = statIncrease;
+		itemName = name;
+		itemStat = stat;
+		itemStatIncrease = statIncrease;
 		itemStatDuration = statDuration;
 		amountOwned = 1;
 	}
-	// FIXME Timers are messed up now
 
-	/// <summary>
-	/// Adds the info to the OneTimeItemInfo script component of the GameObject.
-	/// </summary>
-	/// <param name="oneTimeItem">One time item.</param>
-	public override void AddInfo(ItemInfo itemInfo) {
-		OneTimeItemInfo oneTimeItemInfo = itemInfo as OneTimeItemInfo;
-		oneTimeItemInfo.name = base.itemName;
-		oneTimeItemInfo.itemName = base.itemName;
+	// Adds the info to the OneTimeItemInfo script component of the GameObeject
+	public void AddInfo(GameObject oneTimeItem) {
+		OneTimeItemInfo itemInfo = oneTimeItem.GetComponent<OneTimeItemInfo> ();
+		itemInfo.name = this.itemName;
+		itemInfo.itemName = this.itemName;
 		// UNDONE Add image
-		oneTimeItemInfo.itemStat = base.itemStat;
-		oneTimeItemInfo.statIncrease = base.itemStatIncrease;
-		oneTimeItemInfo.statDuration = itemStatDuration;
+		itemInfo.stat = this.itemStat;
+		itemInfo.statIncrease = this.itemStatIncrease;
+		itemInfo.statDuration = this.itemStatDuration;
 	}
 
 	public override string ToString () {

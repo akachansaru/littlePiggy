@@ -12,11 +12,8 @@ public class DragWearableItem : MonoBehaviour, IDragHandler, IBeginDragHandler, 
 	private bool selectable = true;
 	protected bool dragging = false;
 
-	/// <summary>
-	/// Creates the object but on the screen rather than the canvas.
-	/// </summary>
-	/// <param name="eventData">Event data.</param>
 	public void OnBeginDrag(PointerEventData eventData) {
+		// Create the object but on the screen rather than the canvas
 		if (selectable) {
 			CreateWearableItem(eventData.position);
 			GrayOutListOption (true);
@@ -53,20 +50,13 @@ public class DragWearableItem : MonoBehaviour, IDragHandler, IBeginDragHandler, 
 		}
 	}
 
-	/// <summary>
-	/// Creates a gameobject with the same properties (style, color, pattern) as the UI element selected.
-	/// </summary>
-	/// <param name="position">Position.</param>
+	// Creates a gameobject with the same properties (style, color, pattern) as the UI element selected
 	void CreateWearableItem(Vector2 position) {
 		draggedObject = Instantiate (itemPrefab, ScreenPosition (position), Quaternion.identity) as GameObject;
 		draggedObject.GetComponent<SpriteRenderer> ().color = gameObject.GetComponent<Image> ().color;
 	}
 
-	/// <summary>
-	/// Converts a position on the canvas to one on the screen that directly relates to where a finger is.
-	/// </summary>
-	/// <returns>The position.</returns>
-	/// <param name="canvasPoint">Canvas point.</param>
+	// Converts a position on the canvas to one on the screen that directly relates to where a finger is
 	Vector2 ScreenPosition(Vector2 canvasPoint) {
 		Vector2 localPoint;
 		RectTransformUtility.ScreenPointToLocalPointInRectangle (canvas.transform as RectTransform, canvasPoint,
